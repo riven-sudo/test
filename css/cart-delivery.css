@@ -1,0 +1,196 @@
+/* ================== General Styles ================== */
+body {
+  background: #f9f9f9;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Container */
+.cart-container {
+  max-width: 450px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h3 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* ================== Cart Table ================== */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-table th {
+  background: #f0f0f0;
+  color: #555;
+}
+
+.cart-table td[data-label]::before {
+  content: attr(data-label);
+  font-weight: bold;
+  color: #666;
+  display: none;
+}
+
+.cart-table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* ================== Cart Item Actions ================== */
+.btn-remove {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #e74c3c;
+  transition: 0.2s;
+}
+
+.btn-remove:hover {
+  transform: scale(1.2);
+  color: #c0392b;
+}
+
+/* ================== Quantity Controls ================== */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.qty-btn {
+  background: transparent;
+  border: 1px solid orange;
+  border-radius: 40px;
+  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  font-weight: bold;
+  color: orange;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.qty-btn:hover {
+  background: #f4f4f4;
+}
+
+.qty-display {
+  font-size: 15px;
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ================== Form Styles ================== */
+label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  margin-bottom: 12px;
+  transition: border 0.3s;
+}
+
+input[type="text"]:focus,
+select:focus {
+  border: 1px solid #ff6600;
+  outline: none;
+}
+
+/* ================== GCash Section ================== */
+#gcash_qr_section {
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#gcash_qr_section h4 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+#gcash_qr_section img {
+  max-width: 160px;
+  margin-top: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#gcash_qr_section p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* ================== Buttons ================== */
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #27ae60;
+  color: #fff;
+  transition: background 0.3s;
+  margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+  background: #219150;
+}
+
+/* ================== Messages ================== */
+.success, .error {
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.success {
+  background: #dff0d8;
+  color: #3c763d;
+}
+
+.error {
+  background: #f2dede;
+  color: #a94442;
+}
