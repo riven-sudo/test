@@ -1,0 +1,344 @@
+/* ===== Auth Container ===== */
+.auth-container {
+  width: 90%;
+  max-width: 400px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.auth-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.8rem;
+}
+.auth-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.auth-container .glow-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 16px;
+  background: orange;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.auth-container .glow-btn:hover {
+  background: #ff8c00;
+}
+.toggle-links {
+  margin-top: 15px;
+  font-size: 14px;
+}
+.toggle-links a {
+  color: orange;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+.toggle-links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Dark Mode ===== */
+body.dark-mode .auth-container {
+  background: #222;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255,255,255,0.1);
+}
+body.dark-mode .auth-container input {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+body.dark-mode .auth-container input::placeholder {
+  color: #bbb;
+}
+body.dark-mode .auth-container h2 {
+  color: #fff;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  background: #f8f8f8;
+  padding: 10px 5%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+body.dark-mode .navbar {
+  background: #222;
+}
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.navbar-left img {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.menu ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.menu ul li a {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: orange;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.menu ul li a:hover {
+  background: orangered;
+}
+body.dark-mode .menu ul li a {
+  background: #444;
+  color: #fff;
+}
+body.dark-mode .menu ul li a:hover {
+  background: #666;
+}
+.darkmode-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #444;
+  color: white;
+  font-size: 18px;
+}
+body.dark-mode .darkmode-btn {
+  background: #ddd;
+  color: black;
+}
+
+/* ===== Logo Container ===== */
+.logo-container {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.logo-container img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid orange;
+}
+
+/* ===== Body Padding to Prevent Navbar Overlap ===== */
+body {
+  padding-top: 90px;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== Mobile Responsiveness ===== */
+@media (max-width: 768px) {
+  /* Body padding adjustment for mobile */
+  body {
+    padding-top: 0 !important; /* Remove all padding for mobile */
+  }
+  
+  /* Logo adjustments for mobile */
+  .logo-container {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .logo-container img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  /* Auth container adjustments */
+  .auth-container {
+    margin: 15px auto;
+    padding: 20px 15px;
+    width: 95%;
+  }
+  
+  /* Navbar adjustments */
+  .navbar {
+    padding: 10px 15px;
+  }
+  
+  .navbar .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .menu ul {
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .menu ul li a {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  /* Input adjustments */
+  .auth-container input {
+    padding: 14px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Button adjustments */
+  .auth-container .glow-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  /* Google sign-in button adjustments */
+  .auth-container img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Extra small devices (phones, 480px and down) */
+@media (max-width: 480px) {
+  .logo-container img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .auth-container {
+    margin: 10px auto;
+    padding: 15px 10px;
+  }
+  
+  .auth-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .menu ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .menu ul li {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .menu ul li a {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .toggle-links {
+    font-size: 13px;
+  }
+}
+
+/* Very small devices (phones, 360px and down) */
+@media (max-width: 360px) {
+  .logo-container img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .auth-container {
+    margin: 5px auto;
+    padding: 15px 10px;
+  }
+  
+  .auth-container h2 {
+    font-size: 1.4rem;
+  }
+  
+  .menu ul li a {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .navbar-left img {
+    height: 50px;
+    width: 50px;
+  }
+  
+  .darkmode-btn {
+    padding: 6px 10px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile landscape orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    padding-top: 0;
+  }
+  
+  .auth-container {
+    margin: 10px auto;
+    padding: 15px 20px;
+  }
+  
+  .auth-container input {
+    padding: 10px;
+    margin: 8px 0;
+  }
+  
+  .auth-container .glow-btn {
+    padding: 10px;
+    margin-top: 10px;
+  }
+}
+
+/* Prevent horizontal scrolling on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Improve touch targets for mobile */
+@media (pointer: coarse) {
+  .auth-container input,
+  .auth-container .glow-btn,
+  .menu ul li a,
+  .darkmode-btn,
+  .toggle-links a {
+    min-height: 44px; /* Minimum touch target size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .toggle-links a {
+    min-height: auto; /* Links don't need as big touch targets */
+  }
+}
