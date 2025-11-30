@@ -12,7 +12,7 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// Add to cart
+// ================= Add to Cart =================
 if (isset($_POST['add_to_cart'])) {
     $food_id = (int)$_POST['food_id'];
     $stmt_food = $conn->prepare('SELECT * FROM "tbl_food" WHERE id = :id LIMIT 1');
@@ -43,12 +43,12 @@ if (isset($_POST['add_to_cart'])) {
     }
 }
 
-// Submit Rating
+// ================= Submit Rating =================
 if (isset($_POST['submit_rating'])) {
     $food_id = (int)$_POST['food_id'];
     $rating = (int)$_POST['submit_rating'];
 
-    $stmt_rate = $conn->prepare('INSERT INTO "tbl_ratings" (food_id, rating, created_at) VALUES (:food_id, :rating, NOW())');
+    $stmt_rate = $conn->prepare('INSERT INTO "tbl_ratings" (food_id, rating, created_at) VALUES (:food_id, :rating, CURRENT_TIMESTAMP)');
     $stmt_rate->execute([
         'food_id' => $food_id,
         'rating' => $rating
@@ -72,15 +72,15 @@ $row_customers = $stmt_customers->fetch(PDO::FETCH_ASSOC);
 $happy_customers = $row_customers['total_customers'] ?? 0;
 
 // Menu Items
-$stmt_menu = $conn->query('SELECT COUNT(*) AS total_menu FROM "tbl_food" WHERE active=\'Yes\'');
+$stmt_menu = $conn->query('SELECT COUNT(*) AS total_menu FROM "tbl_food" WHERE active = \'Yes\'');
 $row_menu = $stmt_menu->fetch(PDO::FETCH_ASSOC);
 $menu_items = $row_menu['total_menu'] ?? 0;
 
 // Average Delivery
 $stmt_delivery = $conn->query('
-    SELECT AVG(EXTRACT(EPOCH FROM (NOW() - order_date))/60) AS avg_delivery
+    SELECT AVG(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - order_date))/60) AS avg_delivery
     FROM "tbl_order"
-    WHERE status=\'Delivered\'
+    WHERE status = \'Delivered\'
 ');
 $row_delivery = $stmt_delivery->fetch(PDO::FETCH_ASSOC);
 $avg_delivery = !empty($row_delivery['avg_delivery']) ? round($row_delivery['avg_delivery']) . ' min' : '15 min';
@@ -128,7 +128,7 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
         <h2 class="text-center">Food Menu</h2>
         <div class="food-grid">
         <?php
-        $stmt_foods = $conn->query('SELECT * FROM "tbl_food" WHERE active=\'Yes\' AND featured=\'Yes\' LIMIT 4');
+        $stmt_foods = $conn->query('SELECT * FROM "tbl_food" WHERE active = \'Yes\' AND featured = \'Yes\' LIMIT 4');
         $foods_featured = $stmt_foods->fetchAll(PDO::FETCH_ASSOC);
 
         if ($foods_featured) {
@@ -228,7 +228,7 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
 <?php
 // Dynamically pass food items to JS
 $foods_js = [];
-$stmt_all = $conn->query('SELECT id, title, description, image_name FROM "tbl_food" WHERE active=\'Yes\' ORDER BY id DESC');
+$stmt_all = $conn->query('SELECT id, title, description, image_name FROM "tbl_food" WHERE active = \'Yes\' ORDER BY id DESC');
 $all_foods = $stmt_all->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($all_foods as $r) {
