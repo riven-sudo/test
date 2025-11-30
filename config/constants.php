@@ -8,15 +8,18 @@ error_reporting(E_ALL);
 
 // Load environment variables
 $db_host = getenv('DB_HOST');
-$db_user = getenv('DB_DATABASE');
+$db_user = getenv('DB_USER');        // corrected
 $db_pass = getenv('DB_PASSWORD');
-$db_name = getenv('DB_NAME');
+$db_name = getenv('DB_DATABASE');    // corrected
+$db_port = getenv('DB_PORT') ?: 5432;
 
+// Check if environment variables are loaded
+if (!$db_host || !$db_user || !$db_pass || !$db_name) {
+    die("One or more database environment variables are missing.");
+}
 
 // Define SITEURL
 define('SITEURL', 'https://test-1-v6th.onrender.com/');
-
-
 
 try {
     $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name";
@@ -26,5 +29,3 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
-
-
