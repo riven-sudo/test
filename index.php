@@ -328,6 +328,9 @@ foreach ($all_foods as $r) {
     h3 {
         text-align: center;
     }
+    h2 {
+        text-align: center;
+    }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Arial', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
@@ -541,4 +544,5 @@ document.addEventListener('DOMContentLoaded', () => {
 <?php include('partials-front/footer.php'); ?>
 </body>
 </html>
+
 
