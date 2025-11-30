@@ -11,7 +11,7 @@ $db_host = getenv('DB_HOST');
 $db_user = getenv('DB_DATABASE');
 $db_pass = getenv('DB_PASSWORD');
 $db_name = getenv('DB_NAME');
-$db_port = getenv('DB_PORT');
+
 
 // Define SITEURL
 define('SITEURL', 'https://test-1-v6th.onrender.com/');
@@ -26,4 +26,5 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+
 
