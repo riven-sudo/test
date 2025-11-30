@@ -11,19 +11,21 @@ $db_host = getenv('DB_HOST');
 $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASSWORD');
 $db_name = getenv('DB_NAME');
-$db_port = getenv('DB_PORT') ?: 5432; // default to 5432 just in case
+$db_port = getenv('DB_PORT') ?: 5432;
 
-// Define SITEURL (adjust if needed)
+// Define SITEURL
 define('SITEURL', 'https://test-1-v6th.onrender.com/');
 
+// Debug if env vars missing
+if (!$db_host || !$db_user || !$db_pass || !$db_name) {
+    die("❌ Environment variables NOT LOADED from Render.");
+}
+
 try {
-    // Create PDO connection
     $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name";
     $conn = new PDO($dsn, $db_user, $db_pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
-
-    // echo "Connected successfully to PostgreSQL!"; // optional
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
