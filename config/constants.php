@@ -66,14 +66,15 @@ define('SITEURL', 'https://test-1-v6th.onrender.com/');
 // ---------------------------------------------------
 try {
     $dsn = "pgsql:host=$db_host;dbname=$db_name";
-
     $conn = new PDO($dsn, $db_user, $db_pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_STRINGIFY_FETCHES => false
     ]);
-
     echo "<span style='color:green'>Database connection successful!</span><br>";
 } catch (PDOException $e) {
     echo "<span style='color:red'>Database connection failed:</span> " . $e->getMessage();
     die();
 }
 ?>
+
