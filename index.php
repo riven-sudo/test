@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include('config/constants.php'); // Make sure this has PDO connection
+include('config/constants.php'); // PDO connection
 include('partials-front/menu.php');
 
 // Initialize cart
@@ -15,6 +15,7 @@ if (!isset($_SESSION['cart'])) {
 // Add to cart
 if (isset($_POST['add_to_cart'])) {
     $food_id = (int)$_POST['food_id'];
+
     $stmt_food = $conn->prepare('SELECT * FROM tbl_food WHERE id = :id LIMIT 1');
     $stmt_food->execute(['id' => $food_id]);
     $food = $stmt_food->fetch(PDO::FETCH_ASSOC);
@@ -39,6 +40,7 @@ if (isset($_POST['add_to_cart'])) {
                 'image' => $food['image_name']
             ];
         }
+
         $_SESSION['cart_message'] = "✅ '{$food['title']}' was added to your cart!";
     }
 }
@@ -57,16 +59,15 @@ if (isset($_POST['submit_rating'])) {
     $_SESSION['rating_message'] = "⭐ Thanks for rating this food!";
 }
 
-// ================= Dynamic Stats =================
 
 // ================= Dynamic Stats =================
 
 // Happy Customers
 $sql_customers = '
 SELECT COUNT(*) AS total_customers FROM (
-    SELECT DISTINCT customer_name FROM "tbl_order" WHERE customer_name IS NOT NULL AND customer_name != \'\'
+    SELECT DISTINCT customer_name FROM tbl_order WHERE customer_name IS NOT NULL AND customer_name != \'\'
     UNION
-    SELECT DISTINCT customer_name FROM "tbl_takeout" WHERE customer_name IS NOT NULL AND customer_name != \'\'
+    SELECT DISTINCT customer_name FROM tbl_takeout WHERE customer_name IS NOT NULL AND customer_name != \'\'
 ) AS combined
 ';
 $stmt_customers = $conn->query($sql_customers);
@@ -74,25 +75,25 @@ $row_customers = $stmt_customers->fetch(PDO::FETCH_ASSOC);
 $happy_customers = $row_customers['total_customers'] ?? 0;
 
 // Menu Items
-$stmt_menu = $conn->query('SELECT COUNT(*) AS total_menu FROM "tbl_food" WHERE active = \'Yes\'');
+$stmt_menu = $conn->query("SELECT COUNT(*) AS total_menu FROM tbl_food WHERE active = 'Yes'");
 $row_menu = $stmt_menu->fetch(PDO::FETCH_ASSOC);
 $menu_items = $row_menu['total_menu'] ?? 0;
 
 // Average Delivery (in minutes)
-$stmt_delivery = $conn->query('
+$stmt_delivery = $conn->query("
     SELECT AVG(EXTRACT(EPOCH FROM (NOW() - order_date))/60) AS avg_delivery
-    FROM "tbl_order"
-    WHERE status = \'Delivered\'
-');
+    FROM tbl_order
+    WHERE status = 'Delivered'
+");
 $row_delivery = $stmt_delivery->fetch(PDO::FETCH_ASSOC);
 $avg_delivery = !empty($row_delivery['avg_delivery']) ? round($row_delivery['avg_delivery']) . ' min' : '15 min';
 
 // Customer Rating
-$stmt_rating = $conn->query('SELECT AVG(rating) AS avg_rating FROM "tbl_ratings"');
+$stmt_rating = $conn->query('SELECT AVG(rating) AS avg_rating FROM tbl_ratings');
 $row_rating = $stmt_rating->fetch(PDO::FETCH_ASSOC);
 $rating = !empty($row_rating['avg_rating']) ? round($row_rating['avg_rating'], 1) . '⭐' : 'No Ratings';
-?>
 
+?>
 <!-- Food Search -->
 <section class="food-search text-center">
     <div class="container">
@@ -114,9 +115,7 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
     <h2 class="carousel-title">Explore Food</h2>
     <div class="shuffle-container">
         <button class="carousel-btn left" onclick="slideLeft()">&#10094;</button>
-        <div class="card-stack" id="cardStack">
-            <!-- Cards loaded dynamically by JS -->
-        </div>
+        <div class="card-stack" id="cardStack"></div>
         <button class="carousel-btn right" onclick="slideRight()">&#10095;</button>
     </div>
 </section>
@@ -126,11 +125,13 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
     <video autoplay muted loop class="explore-bg-video">
         <source src="bg-video.mp4" type="video/mp4">
     </video>
+
     <div class="container">
         <h2 class="text-center">Food Menu</h2>
+
         <div class="food-grid">
         <?php
-        $stmt_foods = $conn->query('SELECT * FROM tbl_food WHERE active=\'Yes\' AND featured=\'Yes\' LIMIT 4');
+        $stmt_foods = $conn->query("SELECT * FROM tbl_food WHERE active='Yes' AND featured='Yes' LIMIT 4");
         $foods_featured = $stmt_foods->fetchAll(PDO::FETCH_ASSOC);
 
         if ($foods_featured) {
@@ -162,17 +163,18 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
                             $halfStar  = ($avg_rating - $fullStars >= 0.5) ? 1 : 0; 
                             $emptyStars = 5 - $fullStars - $halfStar;
 
-                            for ($i=0; $i < $fullStars; $i++) { echo "<span class='star filled'>★</span>"; }
-                            if ($halfStar) { echo "<span class='star half'>★</span>"; }
-                            for ($i=0; $i < $emptyStars; $i++) { echo "<span class='star empty'>☆</span>"; }
+                            for ($i=0; $i < $fullStars; $i++) echo "<span class='star filled'>★</span>";
+                            if ($halfStar) echo "<span class='star half'>★</span>";
+                            for ($i=0; $i < $emptyStars; $i++) echo "<span class='star empty'>☆</span>";
 
                             echo " <small>($avg_rating / 5 from $total_ratings ratings)</small>";
                         } else {
-                            for ($i=0; $i < 5; $i++) { echo "<span class='star no-rating'>☆</span>"; }
+                            for ($i=0; $i < 5; $i++) echo "<span class='star no-rating'>☆</span>";
                             echo " <small>(No ratings yet)</small>";
                         }
                         ?>
                     </div>
+
                     <h4><?php echo $title; ?></h4>
                     <p class="food-price">₱<?php echo $price; ?></p>
                     <p class="food-detail"><?php echo $description; ?></p>
@@ -187,7 +189,7 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
                     <form method="POST" action="index.php" class="stars" title="Rate this food">
                         <input type="hidden" name="food_id" value="<?php echo $id; ?>">
                         <?php for ($r=1; $r<=5; $r++) { ?>
-                            <button type="submit" name="submit_rating" value="<?php echo $r; ?>" data-tooltip="<?php echo ['Poor','Fair','Good','Very Good','Excellent'][$r-1]; ?>">⭐</button>
+                            <button type="submit" name="submit_rating" value="<?php echo $r; ?>"><?php echo "⭐"; ?></button>
                         <?php } ?>
                     </form>
                 </div>
@@ -199,6 +201,7 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
         }
         ?>
         </div>
+
         <p class="text-center">
             <a href="foods.php">See All Foods</a>
         </p>
@@ -212,14 +215,17 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
             <div class="stat-number"><?php echo number_format($happy_customers); ?>+</div>
             <div class="stat-label">Happy Customers</div>
         </div>
+
         <div class="stat-item">
             <div class="stat-number"><?php echo $menu_items; ?>+</div>
             <div class="stat-label">Menu Items</div>
         </div>
+
         <div class="stat-item">
             <div class="stat-number"><?php echo $avg_delivery; ?></div>
             <div class="stat-label">Average Delivery</div>
         </div>
+
         <div class="stat-item">
             <div class="stat-number"><?php echo $rating; ?></div>
             <div class="stat-label">Customer Rating</div>
@@ -228,9 +234,8 @@ if (isset($_SESSION['rating_message'])) { echo "<p class='alert info'>" . $_SESS
 </section>
 
 <?php
-// Dynamically pass food items to JS
 $foods_js = [];
-$stmt_all = $conn->query('SELECT id, title, description, image_name FROM tbl_food WHERE active=\'Yes\' ORDER BY id DESC');
+$stmt_all = $conn->query("SELECT id, title, description, image_name FROM tbl_food WHERE active='Yes' ORDER BY id DESC");
 $all_foods = $stmt_all->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($all_foods as $r) {
@@ -245,9 +250,8 @@ foreach ($all_foods as $r) {
 ?>
 
 <script>
-const foodItems = <?php echo json_encode($foods_js, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_AMP|JSON_HEX_QUOT); ?>;
+const foodItems = <?php echo json_encode($foods_js); ?>;
 console.log('Loaded foodItems:', foodItems);
 </script>
 
 <?php include('partials-front/footer.php'); ?>
-
