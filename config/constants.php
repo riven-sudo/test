@@ -13,7 +13,7 @@ $db_pass     = getenv('DB_PASSWORD'); // your DB password
 $db_name     = getenv('DB_NAME');     // e.g., food_order_13bv
 
 // Define SITEURL (adjust if needed)
-define('SITEURL', 'https://your-render-domain.onrender.com/');
+define('SITEURL', 'https://test-1-v6th.onrender.com/');
 
 try {
     // Create PDO connection
