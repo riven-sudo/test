@@ -8,13 +8,8 @@ RUN apt-get update && apt-get install -y libpq-dev \
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# 🚀 FIX: Pass Render environment vars to PHP
-RUN echo "PassEnv DB_HOST\n\
-PassEnv DB_USER\n\
-PassEnv DB_PASSWORD\n\
-PassEnv DB_DATABASE" \
->> /etc/apache2/conf-available/passenv.conf \
-    && a2enconf passenv
+# Enable PassEnv in Apache for environment variables
+RUN echo "PassEnv DB_HOST DB_USER DB_PASSWORD DB_DATABASE" >> /etc/apache2/apache2.conf
 
 # Copy app files
 COPY . /var/www/html/
@@ -25,3 +20,6 @@ RUN chown -R www-data:www-data /var/www/html
 WORKDIR /var/www/html/
 
 EXPOSE 80
+
+# Start Apache in foreground
+CMD ["apache2-foreground"]
