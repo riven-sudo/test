@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 // Enable error reporting for debugging
 ini_set('display_errors', 1);
@@ -252,3 +252,4 @@ console.log('Loaded foodItems:', foodItems);
 </script>
 
 <?php include('partials-front/footer.php'); ?>
+
