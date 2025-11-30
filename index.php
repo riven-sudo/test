@@ -59,12 +59,14 @@ if (isset($_POST['submit_rating'])) {
 
 // ================= Dynamic Stats =================
 
+// ================= Dynamic Stats =================
+
 // Happy Customers
 $sql_customers = '
 SELECT COUNT(*) AS total_customers FROM (
-    SELECT DISTINCT customer_name FROM tbl_order WHERE customer_name IS NOT NULL AND customer_name != \'\'
+    SELECT DISTINCT customer_name FROM "tbl_order" WHERE customer_name IS NOT NULL AND customer_name != \'\'
     UNION
-    SELECT DISTINCT customer_name FROM tbl_takeout WHERE customer_name IS NOT NULL AND customer_name != \'\'
+    SELECT DISTINCT customer_name FROM "tbl_takeout" WHERE customer_name IS NOT NULL AND customer_name != \'\'
 ) AS combined
 ';
 $stmt_customers = $conn->query($sql_customers);
@@ -72,21 +74,21 @@ $row_customers = $stmt_customers->fetch(PDO::FETCH_ASSOC);
 $happy_customers = $row_customers['total_customers'] ?? 0;
 
 // Menu Items
-$stmt_menu = $conn->query('SELECT COUNT(*) AS total_menu FROM tbl_food WHERE active=\'Yes\'');
+$stmt_menu = $conn->query('SELECT COUNT(*) AS total_menu FROM "tbl_food" WHERE active = \'Yes\'');
 $row_menu = $stmt_menu->fetch(PDO::FETCH_ASSOC);
 $menu_items = $row_menu['total_menu'] ?? 0;
 
-// Average Delivery
+// Average Delivery (in minutes)
 $stmt_delivery = $conn->query('
     SELECT AVG(EXTRACT(EPOCH FROM (NOW() - order_date))/60) AS avg_delivery
-    FROM tbl_order
-    WHERE status=\'Delivered\'
+    FROM "tbl_order"
+    WHERE status = \'Delivered\'
 ');
 $row_delivery = $stmt_delivery->fetch(PDO::FETCH_ASSOC);
 $avg_delivery = !empty($row_delivery['avg_delivery']) ? round($row_delivery['avg_delivery']) . ' min' : '15 min';
 
 // Customer Rating
-$stmt_rating = $conn->query('SELECT AVG(rating) AS avg_rating FROM tbl_ratings');
+$stmt_rating = $conn->query('SELECT AVG(rating) AS avg_rating FROM "tbl_ratings"');
 $row_rating = $stmt_rating->fetch(PDO::FETCH_ASSOC);
 $rating = !empty($row_rating['avg_rating']) ? round($row_rating['avg_rating'], 1) . '⭐' : 'No Ratings';
 ?>
@@ -248,3 +250,4 @@ console.log('Loaded foodItems:', foodItems);
 </script>
 
 <?php include('partials-front/footer.php'); ?>
+
