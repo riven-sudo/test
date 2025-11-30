@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 // Load environment variables
 $db_host = getenv('DB_HOST');
-$db_user = getenv('DB_USER');
+$db_user = getenv('DB_DATABASE');
 $db_pass = getenv('DB_PASSWORD');
 $db_name = getenv('DB_NAME');
 $db_port = getenv('DB_PORT') ?: 5432;
