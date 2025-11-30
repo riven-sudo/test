@@ -1,9 +1,9 @@
 <?php
 // Load environment variables
-$db_host = getenv('dpg-d4kint49c44c73evteu0-a');
-$db_user = getenv('food_order_13bv_user');
-$db_pass = getenv('lo7PgG7E2KRTxxgGkbYhDCWgjXLAXgeO');
-$db_name = getenv('food_order_13bv');
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USERNAME');
+$db_pass = getenv('DB_PASSWORD');
+$db_name = getenv('DB_NAME');
 
 // Build DSN string for PostgreSQL
 $dsn = "pgsql:host=$db_host;dbname=$db_name";
