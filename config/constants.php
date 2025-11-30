@@ -1,20 +1,16 @@
 <?php
-// ---------------------------------------------------
-// Start session (if not already started)
-// ---------------------------------------------------
+// Start session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// ---------------------------------------------------
-// Enable error reporting (development only)
-// ---------------------------------------------------
+// Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // ---------------------------------------------------
-// ENV LOADER (Works for Render / Docker)
+// ENV LOADER (Works for Render): getenv + $_ENV + $_SERVER
 // ---------------------------------------------------
 if (!function_exists('env')) {
     function env($key) {
@@ -26,12 +22,22 @@ if (!function_exists('env')) {
 }
 
 // ---------------------------------------------------
-// Load Database Environment Variables
+// DATABASE CONFIG FROM DATABASE_URL
+// DATABASE_URL example:
+// postgres://username:password@hostname:5432/dbname
 // ---------------------------------------------------
-$db_host = env('DB_HOST');
-$db_user = env('DB_USER');
-$db_pass = env('DB_PASSWORD');
-$db_name = env('DB_DATABASE');
+$databaseUrl = env('DATABASE_URL');
+
+if ($databaseUrl) {
+    $components = parse_url($databaseUrl);
+
+    $db_host = $components['host'] ?? null;
+    $db_user = $components['user'] ?? null;
+    $db_pass = $components['pass'] ?? null;
+    $db_name = isset($components['path']) ? ltrim($components['path'], '/') : null;
+} else {
+    $db_host = $db_user = $db_pass = $db_name = null;
+}
 
 // ---------------------------------------------------
 // DEBUG SECTION
@@ -47,19 +53,13 @@ echo "DB_DATABASE: " . ($db_name ?: "<span style='color:red'>NOT SET</span>") . 
 // ---------------------------------------------------
 if (!$db_host || !$db_user || !$db_pass || !$db_name) {
     echo "<hr><strong style='color:red'>ERROR: Missing database environment variables!</strong><br><br>";
-    echo "<h4>Dump \$_ENV:</h4>";
-    var_dump($_ENV);
-    echo "<h4>Dump \$_SERVER:</h4>";
-    var_dump($_SERVER);
-    die("<br>Fix: Add env variables in Render Dashboard → Environment and Redeploy.");
+    die("Fix: Add DATABASE_URL in Render Dashboard → Environment and Redeploy.");
 }
 
 // ---------------------------------------------------
 // Constants
 // ---------------------------------------------------
-if (!defined('SITEURL')) {
-    define('SITEURL', 'https://test-1-v6th.onrender.com/');
-}
+define('SITEURL', 'https://test-1-v6th.onrender.com/');
 
 // ---------------------------------------------------
 // DATABASE CONNECTION (PostgreSQL via PDO)
