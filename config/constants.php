@@ -40,7 +40,10 @@ if ($databaseUrl) {
 // ---------------------------------------------------
 // Constants
 // ---------------------------------------------------
-define('SITEURL', 'https://test-1-v6th.onrender.com/');
+if (!defined('SITEURL')) {
+    define('SITEURL', 'https://test-1-v6th.onrender.com/');
+}
+
 
 // ---------------------------------------------------
 // DATABASE CONNECTION (PostgreSQL via PDO)
@@ -58,3 +61,4 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 ?>
+
