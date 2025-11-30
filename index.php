@@ -259,7 +259,7 @@ foreach ($all_foods as $r) {
 <!-- Hero -->
 <section class="hero">
   <div class="hero-inner">
-    <h1>About Blackstar Snackbar</h1>
+    <h1>About Blackstar Snackbar</h1> 
     <p class="lead">We craft tasty burgers, snacks, and good vibes — local flavors inspired by space (and hunger!).</p>
   </div>
 
@@ -318,6 +318,16 @@ foreach ($all_foods as $r) {
   /* ========================================
    BASE STYLES
 ======================================== */
+
+    h1{ 
+        text-align: center;
+      }
+    p {
+        text-align: center;
+      }
+    h3 {
+        text-align: center;
+    }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Arial', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
@@ -531,3 +541,4 @@ document.addEventListener('DOMContentLoaded', () => {
 <?php include('partials-front/footer.php'); ?>
 </body>
 </html>
+
