@@ -1,14 +1,19 @@
-# Step 1: Use official PHP + Apache image
+# Use official PHP + Apache image
 FROM php:8.2-apache
 
-# Step 2: Copy project files into container
-COPY . /var/www/html/
+# Install PostgreSQL driver dependencies
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo_pgsql
 
-# Step 3: Enable mod_rewrite (optional)
+# Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Step 4: Set working directory
+# Copy app files
+COPY . /var/www/html/
+
+# Fix permissions
+RUN chown -R www-data:www-data /var/www/html
+
 WORKDIR /var/www/html/
 
-# Step 5: Expose port 80
 EXPOSE 80
