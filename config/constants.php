@@ -14,6 +14,14 @@ $db_name     = getenv('DB_NAME');     // e.g., food_order_13bv
 
 // Define SITEURL (adjust if needed)
 define('SITEURL', 'https://test-1-v6th.onrender.com/');
+var_dump([
+    'DB_HOST' => getenv('DB_HOST'),
+    'DB_USER' => getenv('DB_USER'),
+    'DB_PASSWORD' => getenv('DB_PASSWORD'),
+    'DB_NAME' => getenv('DB_NAME'),
+    'DB_PORT' => getenv('DB_PORT'),
+]);
+exit;
 
 try {
     // Create PDO connection
@@ -27,4 +35,5 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+
 
