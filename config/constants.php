@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 // Load environment variables
 $db_host     = getenv('DB_HOST');     // e.g., dpg-d4kint49c44c73evteu0-a
-$db_user     = getenv('DB_USERNAME'); // e.g., food_order_13bv_user
+$db_user     = getenv('DB_USER'); // e.g., food_order_13bv_user
 $db_pass     = getenv('DB_PASSWORD'); // your DB password
 $db_name     = getenv('DB_NAME');     // e.g., food_order_13bv
 
@@ -27,3 +27,4 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+
