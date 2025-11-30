@@ -16,10 +16,7 @@ $db_port = getenv('DB_PORT') ?: 5432;
 // Define SITEURL
 define('SITEURL', 'https://test-1-v6th.onrender.com/');
 
-// Debug if env vars missing
-if (!$db_host || !$db_user || !$db_pass || !$db_name) {
-    die("❌ Environment variables NOT LOADED from Render.");
-}
+
 
 try {
     $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name";
