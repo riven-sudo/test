@@ -1,27 +1,29 @@
 <?php
-// Enable error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Start session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Load environment variables
+// Load MySQL environment variables
 $host = getenv("MYSQL_HOST");
 $port = getenv("MYSQL_PORT");
 $user = getenv("MYSQL_USER");
-$pass = getenv("MYSQL_PASS"); // Sensitive, do NOT print
+$pass = getenv("MYSQL_PASS");
 $db   = getenv("MYSQL_DB");
 
-// Optional: debug only safe info
-echo "DEBUG: Host=$host, Port=$port, User=$user, DB=$db<br>";
+// Validate
+if (!$host || !$user || !$db) {
+    die("Missing required database environment variables.");
+}
 
-// Connect to MySQL
+// Connect
 $conn = mysqli_connect($host, $user, $pass, $db, $port);
 
 if (!$conn) {
-    // Log the error and show friendly message
     error_log("MySQL Connection Error: " . mysqli_connect_error());
-    die("Database connection failed. Please check logs. <br>Error: " . mysqli_connect_error());
-} else {
-    echo "✅ MySQL Connected Successfully!";
+    die("Database connection failed.");
 }
+
+// No echo here — keep silent for production
+define('SITEURL', 'https://test-1-v6th.onrender.com/');
 ?>
