@@ -1,5 +1,5 @@
 <?php
-ob_start();
+
 include('config/constants.php');
 
 
@@ -166,7 +166,7 @@ if (isset($_POST['update_profile'])) {
     margin-bottom: 10px;
 }
 </style>
-<?php ob_end_flush(); ?>
 
 <?php include('partials-front/footer.php'); ?>
+
 
