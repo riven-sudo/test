@@ -1,5 +1,5 @@
 <?php
-// Enable full debugging
+// Enable PHP errors for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -8,22 +8,23 @@ error_reporting(E_ALL);
 $host = getenv("MYSQL_HOST");
 $port = getenv("MYSQL_PORT");
 $user = getenv("MYSQL_USER");
-$pass = getenv("MYSQL_PASS");
+$pass = getenv("MYSQL_PASS"); // Sensitive, do not echo
 $db   = getenv("MYSQL_DB");
 
-// Debug info (optional, remove later)
+// Debug non-sensitive info only
 echo "DEBUG: ENV variables loaded<br>";
 echo "Host: $host<br>";
 echo "Port: $port<br>";
 echo "User: $user<br>";
 echo "DB: $db<br>";
 
-// Create connection
+// Connect to MySQL
 $conn = mysqli_connect($host, $user, $pass, $db, $port);
 
 // Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
 echo "MySQL Connected Successfully!";
 ?>
