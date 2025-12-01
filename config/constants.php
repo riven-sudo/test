@@ -6,7 +6,7 @@ if (!defined('CONFIG_LOADED')) {
     // Load MySQL environment variables
     $host = getenv("MYSQL_HOST");
     $port = getenv("MYSQL_PORT");
-    $user = getenv("MYSQ_USER");
+    $user = getenv("MYSQL_USER");
     $pass = getenv("MYSQL_PASS");
     $db   = getenv("MYSQL_DB");
 
@@ -33,4 +33,5 @@ if (!defined('CONFIG_LOADED')) {
     }
 }
 ?>
+
 
