@@ -1,4 +1,5 @@
 <?php
+// Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -7,21 +8,20 @@ error_reporting(E_ALL);
 $host = getenv("MYSQL_HOST");
 $port = getenv("MYSQL_PORT");
 $user = getenv("MYSQL_USER");
-$pass = getenv("MYSQL_PASS"); // DO NOT print
+$pass = getenv("MYSQL_PASS"); // Sensitive, do NOT print
 $db   = getenv("MYSQL_DB");
 
-// Debug only safe info
-echo "DEBUG: Host: $host<br>";
-echo "DEBUG: Port: $port<br>";
-echo "DEBUG: User: $user<br>";
-echo "DEBUG: DB: $db<br>";
+// Optional: debug only safe info
+error_log("DEBUG: Host=$host, Port=$port, User=$user, DB=$db");
 
-// Connect to MySQL (pass password directly)
+// Connect to MySQL
 $conn = mysqli_connect($host, $user, $pass, $db, $port);
 
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    // Log the error and show friendly message
+    error_log("MySQL Connection Error: " . mysqli_connect_error());
+    die("Database connection failed. Please check logs.");
 }
 
-echo "MySQL Connected Successfully!";
-?>
+// Connection successful
+error_log("MySQL Connected Successfully!");
