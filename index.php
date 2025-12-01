@@ -1,7 +1,8 @@
 <?php
 echo "DEBUG: PHP loaded successfully.<br>";
+include('partials-front/menu.php');
+?>
 
-<?php include('partials-front/menu.php'); ?>
 
 <?php
 // Initialize cart
@@ -1290,4 +1291,5 @@ body {
 </style>
 
 <?php include('partials-front/footer.php'); ?>
+
 
