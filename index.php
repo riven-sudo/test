@@ -1,4 +1,10 @@
-<?php include('partials-front/menu.php'); ?>
+
+<?php
+
+require_once __DIR__ . "/config/constants.php";   // Load DB connection FIRST
+include('partials-front/menu.php');
+?>
+
 
 <?php
 // Initialize cart
@@ -1287,3 +1293,9 @@ body {
 </style>
 
 <?php include('partials-front/footer.php'); ?>
+
+
+
+
+
+
