@@ -33,7 +33,10 @@ if (!defined('CONFIG_LOADED')) {
         exit;
     }
 
-    // Start session safely
+    // ✅ Start session safely
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
     // Define URL once
     if (!defined('SITEURL')) {
@@ -43,5 +46,3 @@ if (!defined('CONFIG_LOADED')) {
 
 // DO NOT ob_end_clean() → this would delete output & break sessions
 ?>
-
-
