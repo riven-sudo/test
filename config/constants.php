@@ -1,64 +1,29 @@
 <?php
-// Start session
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Enable error reporting (you can disable on production)
+// Enable debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// ---------------------------------------------------
-// ENV LOADER
-// ---------------------------------------------------
-if (!function_exists('env')) {
-    function env($key) {
-        if (isset($_ENV[$key])) return $_ENV[$key];
-        if (isset($_SERVER[$key])) return $_SERVER[$key];
-        $v = getenv($key);
-        return $v !== false ? $v : null;
-    }
-}
+// Load environment variables from Render
+$host = getenv("MYSQL_HOST");
+$user = getenv("MYSQL_USER");
+$pass = getenv("MYSQL_PASS");
+$db   = getenv("MYSQL_DB");
+$port = getenv("MYSQL_PORT");
 
-// ---------------------------------------------------
-// DATABASE CONFIG FROM DATABASE_URL
-// ---------------------------------------------------
-$databaseUrl = env('DATABASE_URL');
+// Debug output (you can remove later)
+echo "DEBUG: Loaded ENV variables<br>";
+echo "Host: $host<br>";
+echo "User: $user<br>";
+echo "DB: $db<br>";
 
-if ($databaseUrl) {
-    $components = parse_url($databaseUrl);
+// Create connection
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
-    $db_host = $components['host'] ?? null;
-    $db_user = $components['user'] ?? null;
-    $db_pass = $components['pass'] ?? null;
-    $db_name = isset($components['path']) ? ltrim($components['path'], '/') : null;
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 } else {
-    die("DATABASE_URL not found. Add it inside Render → Environment.");
-}
-
-// ---------------------------------------------------
-// Constants
-// ---------------------------------------------------
-if (!defined('SITEURL')) {
-    define('SITEURL', 'https://test-1-v6th.onrender.com/');
-}
-
-
-// ---------------------------------------------------
-// DATABASE CONNECTION (PostgreSQL via PDO)
-// ---------------------------------------------------
-try {
-    $dsn = "pgsql:host=$db_host;dbname=$db_name";
-
-    $conn = new PDO($dsn, $db_user, $db_pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_EMULATE_PREPARES => false,
-        PDO::ATTR_STRINGIFY_FETCHES => false
-    ]);
-
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+    echo "MySQL Connected Successfully!";
 }
 ?>
-
