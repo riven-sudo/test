@@ -13,33 +13,38 @@ if (!defined('OUTPUT_BUFFERING_STARTED')) {
 if (!defined('CONFIG_LOADED')) {
     define('CONFIG_LOADED', true);
 
+    // Start session safely
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
     // Load env variables
     $host = getenv("MYSQL_HOST");
-    $port = getenv("MYSQL_PORT");
+    $port = getenv("MYSQL_PORT") ?: 3306; // default MySQL port
     $user = getenv("MYSQL_USER");
     $pass = getenv("MYSQL_PASS");
     $db   = getenv("MYSQL_DB");
 
     if (!$host || !$user || !$db) {
         error_log("Missing environment variables.");
-        exit;
+        exit("Database environment variables are missing.");
     }
 
     // Connect
     $conn = mysqli_connect($host, $user, $pass, $db, $port);
-
     if (!$conn) {
         error_log("MySQL Connection Error: " . mysqli_connect_error());
-        exit;
+        exit("Database connection failed.");
     }
-
-    // Start session safely
 
     // Define URL once
     if (!defined('SITEURL')) {
         define('SITEURL', 'https://test-1-v6th.onrender.com/');
     }
-}
 
-// DO NOT ob_end_clean() → this would delete output & break sessions
+    // Initialize cart if not set
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+}
 ?>
