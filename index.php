@@ -1,3 +1,6 @@
+<?php
+echo "DEBUG: PHP loaded successfully.<br>";
+
 <?php include('partials-front/menu.php'); ?>
 
 <?php
@@ -1287,3 +1290,4 @@ body {
 </style>
 
 <?php include('partials-front/footer.php'); ?>
+
