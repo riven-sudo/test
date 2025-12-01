@@ -5,11 +5,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Load MySQL environment variables
-$host = getenv("MYSQL_HOST");
-$port = getenv("MYSQL_PORT");
-$user = getenv("MYSQL_USER");
-$pass = getenv("MYSQL_PASS");
-$db   = getenv("MYSQL_DB");
+$host = getenv("MYSQLHOST");
+$port = getenv("MYSQLPORT");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
+$db   = getenv("MYSQLDATABASE");
 
 // Validate
 if (!$host || !$user || !$db) {
@@ -27,3 +27,4 @@ if (!$conn) {
 // No echo here — keep silent for production
 define('SITEURL', 'https://test-1-v6th.onrender.com/');
 ?>
+
