@@ -1,5 +1,6 @@
 <?php
 echo "DEBUG: PHP loaded successfully.<br>";
+include('config/constants.php');
 include('partials-front/menu.php');
 ?>
 
@@ -1291,5 +1292,6 @@ body {
 </style>
 
 <?php include('partials-front/footer.php'); ?>
+
 
 
