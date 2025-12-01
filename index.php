@@ -1,6 +1,8 @@
 <?php
+include('config/constants.php');   // Load DB connection FIRST
+
 echo "<pre>";
-echo "DEBUG DB NAME: " . mysqli_get_host_info($conn) . "\n";
+echo "DEBUG HOST INFO: " . mysqli_get_host_info($conn) . "\n";
 echo "DEBUG SELECT DATABASE: ";
 $r = mysqli_query($conn, "SELECT DATABASE()");
 $row = mysqli_fetch_row($r);
@@ -8,9 +10,10 @@ echo $row[0];
 echo "</pre>";
 ?>
 
+
 <?php
 
-include('config/constants.php');
+
 include('partials-front/menu.php');
 ?>
 
@@ -1302,6 +1305,7 @@ body {
 </style>
 
 <?php include('partials-front/footer.php'); ?>
+
 
 
 
