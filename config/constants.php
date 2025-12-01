@@ -12,7 +12,7 @@ $pass = getenv("MYSQL_PASS"); // Sensitive, do NOT print
 $db   = getenv("MYSQL_DB");
 
 // Optional: debug only safe info
-error_log("DEBUG: Host=$host, Port=$port, User=$user, DB=$db");
+echo "DEBUG: Host=$host, Port=$port, User=$user, DB=$db<br>";
 
 // Connect to MySQL
 $conn = mysqli_connect($host, $user, $pass, $db, $port);
@@ -20,8 +20,8 @@ $conn = mysqli_connect($host, $user, $pass, $db, $port);
 if (!$conn) {
     // Log the error and show friendly message
     error_log("MySQL Connection Error: " . mysqli_connect_error());
-    die("Database connection failed. Please check logs.");
+    die("Database connection failed. Please check logs. <br>Error: " . mysqli_connect_error());
+} else {
+    echo "✅ MySQL Connected Successfully!";
 }
-
-// Connection successful
-error_log("MySQL Connected Successfully!");
+?>
