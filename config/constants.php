@@ -1,21 +1,45 @@
 <?php
- //start session
- session_start();
+// ====================================================
+// Start output buffering FIRST → prevents header errors
+// ====================================================
+if (!defined('OUTPUT_BUFFERING_STARTED')) {
+    define('OUTPUT_BUFFERING_STARTED', true);
+    ob_start();
+}
 
+// ====================================================
+// Prevent duplicate loading
+// ====================================================
+if (!defined('CONFIG_LOADED')) {
+    define('CONFIG_LOADED', true);
 
+    // Load env variables
+    $host = getenv("MYSQL_HOST");
+    $port = getenv("MYSQL_PORT");
+    $user = getenv("MYSQL_USER");
+    $pass = getenv("MYSQL_PASS");
+    $db   = getenv("MYSQL_DB");
 
-//create constant to store non repeating values
-define('SITEURL', 'https://9e10ac0a7378dc.lhr.life/blackstar/');
+    if (!$host || !$user || !$db) {
+        error_log("Missing environment variables.");
+        exit;
+    }
 
+    // Connect
+    $conn = mysqli_connect($host, $user, $pass, $db, $port);
 
+    if (!$conn) {
+        error_log("MySQL Connection Error: " . mysqli_connect_error());
+        exit;
+    }
 
+    // Start session safely
 
+    // Define URL once
+    if (!defined('SITEURL')) {
+        define('SITEURL', 'https://test-1-v6th.onrender.com/');
+    }
+}
 
-define('LOCALHOST', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-Define('DB_NAME', 'food-order');
-
-$conn = mysqli_connect(LOCALHOST, DB_USERNAME, DB_PASSWORD) or die(mysqli_error()); //database connection
-$db_select = mysqli_select_db($conn,DB_NAME) or die(mysqli_error()); //Selecting database
+// DO NOT ob_end_clean() → this would delete output & break sessions
 ?>
