@@ -3,46 +3,56 @@ include('../config/constants.php');
 
 ?>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="../css/customer-login.css">
     <link rel="stylesheet" href="../css/admin.css">
+    <style>
+      /* Small override so admin login box sits nicely on admin pages */
+      body { padding-top: 40px; }
+      .auth-container { max-width: 420px; }
+    </style>
 </head>
 <body>
-    <div class="login">
-        <h1 class="text-center">Login</h1>
-        <br><br>
 
-        <?php
-            if(isset($_SESSION['login'])) {
-                echo $_SESSION['login'];
-                unset($_SESSION['login']);
-            }
+<div class="logo-container">
+  <a href="<?php echo SITEURL; ?>">
+    <img src="../images/background.jpg" alt="Blackstar">
+  </a>
+</div>
 
-            if(isset($_SESSION['no-login-message'])) {
-                echo $_SESSION['no-login-message'];
-                unset ($_SESSION['no-login-message']);
-            }
-        ?>
-        <br><br>
+<?php 
+    if(isset($_SESSION['login'])) {
+        echo $_SESSION['login'];
+        unset($_SESSION['login']);
+    }
 
-        <!-- Login Form Starts here-->
-        <form action="" method="POST" class="text-center">
-            Username: <br>
-            <input type="text" name="username" placeholder="Enter Username" required><br><br>
+    if(isset($_SESSION['no-login-message'])) {
+        echo $_SESSION['no-login-message'];
+        unset ($_SESSION['no-login-message']);
+    }
+?>
 
-            Password: <br>
-            <input type="password" name="password" placeholder="Enter Password" required><br><br>
-
-            <a href="forgot-password.php">Forgot Password?</a> <br><br>
-
-            <input type="submit" name="submit" value="Login" class="btn-primary">
-            <br><br>
-        </form>
-        <!-- Login Form Ends here-->
-
-        <p class="text-center">Created by - <a href="#">Blackstar</a></p>
+<!-- Admin Login Form -->
+<div class="auth-container" id="adminLogin">
+  <h2>Admin Login</h2>
+  <form action="" method="POST">
+    <input type="text" name="username" placeholder="Enter Username" required>
+    <input type="password" name="password" placeholder="Enter Password" required>
+    <div style="text-align:left;margin-top:8px;">
+      <a href="forgot-password.php">Forgot Password?</a>
     </div>
+    <button type="submit" name="submit" class="glow-btn" style="margin-top:12px;">Login</button>
+  </form>
+  <div class="toggle-links">
+    <p>Back to <a href="../index.php">Website</a></p>
+  </div>
+</div>
+
 </body>
 </html>
 
@@ -66,7 +76,7 @@ if(isset($_POST['submit'])) {
             $_SESSION['user'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            // Redirect based on role (optional, or just go to dashboard)
+            // Redirect to dashboard
             header('location:'.SITEURL.'admin/index.php');
             exit();
         } else {

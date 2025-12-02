@@ -193,7 +193,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f9f9f9;
-    padding-top: 100px;
+    padding-top: 0;
     color: #333;
 }
 

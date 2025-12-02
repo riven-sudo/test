@@ -51,9 +51,10 @@
                 <!--Button to Add Admin-->
                 <a href="add-admin.php" class="btn-primary">Add Admin</a>
 
-                <br /><br /><br />
+                                <br /><br /><br />
 
-              <table class="tbl-full">
+                            <div class="table-responsive">
+                            <table class="tbl-full">
     <tr>
         <th>S.N</th>
         <th>Full Name</th>
@@ -79,16 +80,16 @@
                     $role=$rows['role'];
                     ?>
                     <tr>
-    <td><?php echo $sn++; ?>. </td>
-    <td><?php echo $full_name; ?></td>
-    <td><?php echo $username; ?></td>
-    <td><?php echo $rows['pin']; ?></td>
-    <td><?php echo ucfirst($role); ?></td>
-    <td>
-        <a href="<?php echo SITEURL; ?>admin/update-password.php?id=<?php echo $id; ?>" class="btn-primary">🔐Password</a>
-        <a href="<?php echo SITEURL; ?>admin/update-admin.php?id=<?php echo $id; ?>" class="btn-secondary">♻️</a>
-        <a href="<?php echo SITEURL; ?>admin/update-pin.php?id=<?php echo $id; ?>" class="btn-secondary">🔒PIN</a>
-        <a href="<?php echo SITEURL; ?>admin/delete-admin.php?id=<?php echo $id; ?>" class="btn-danger">🗑️</a>
+    <td data-label="S.N"><?php echo $sn++; ?>. </td>
+    <td data-label="Full Name"><?php echo $full_name; ?></td>
+    <td data-label="Username"><?php echo $username; ?></td>
+    <td data-label="PIN"><?php echo $rows['pin']; ?></td>
+    <td data-label="Role"><?php echo ucfirst($role); ?></td>
+    <td data-label="Actions">
+        <a title="Change Password" href="<?php echo SITEURL; ?>admin/update-password.php?id=<?php echo $id; ?>" class="action-btn btn-icon btn-primary"><i class="fa-solid fa-key"></i><span class="sr-only">Password</span></a>
+        <a title="Edit Admin" href="<?php echo SITEURL; ?>admin/update-admin.php?id=<?php echo $id; ?>" class="action-btn btn-icon btn-edit"><i class="fa-solid fa-pen-to-square"></i><span class="sr-only">Edit</span></a>
+        <a title="Change PIN" href="<?php echo SITEURL; ?>admin/update-pin.php?id=<?php echo $id; ?>" class="action-btn btn-icon btn-update"><i class="fa-solid fa-lock"></i><span class="sr-only">PIN</span></a>
+        <a title="Delete Admin" href="<?php echo SITEURL; ?>admin/delete-admin.php?id=<?php echo $id; ?>" class="action-btn btn-icon btn-delete" onclick="return confirm('Are you sure you want to delete this admin?');"><i class="fa-solid fa-trash"></i><span class="sr-only">Delete</span></a>
     </td>
 </tr>
 
@@ -97,7 +98,8 @@
             }
         }
     ?>
-</table>
+                                </table>
+                            </div>
 
 
             </div>

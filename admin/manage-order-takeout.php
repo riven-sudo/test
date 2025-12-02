@@ -32,142 +32,57 @@
         ?>
 
         <?php if(!empty($orders)): ?>
-            <?php foreach($orders as $txn => $items): ?>
-                <?php $total_amount = array_sum(array_column($items,'total')); ?>
-                <button class="collapsible" onclick="toggleCollapse(this, 'content_<?php echo $txn; ?>')">
-                    <span class="arrow">▶</span>
-                    <?php echo $txn; ?> - <?php echo htmlspecialchars($items[0]['customer_name']); ?> | ₱<?php echo number_format($total_amount,2); ?>
-                </button>
-                <div class="content" id="content_<?php echo $txn; ?>">
-                    <table class="tbl-full">
-                        <tr>
-                            <th>S.N</th>
-                            <th>Food</th>
-                            <th>Price</th>
-                            <th>Qty.</th>
-                            <th>Total</th>
-                            <th>Order Date</th>
-                            <th>Status</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Payment</th>
-                            <th>Actions</th>
-                        </tr>
-                        <?php $sn=1; foreach($items as $order): ?>
-                        <tr>
-                            <td><?php echo $sn++; ?>.</td>
-                            <td><?php echo htmlspecialchars($order['food']); ?></td>
-                            <td><?php echo number_format($order['price'],2); ?></td>
-                            <td><?php echo $order['qty']; ?></td>
-                            <td><?php echo number_format($order['total'],2); ?></td>
-                            <td><?php echo $order['order_date']; ?></td>
-                            <td><?php echo htmlspecialchars($order['status']); ?></td>
-                            <td><?php echo htmlspecialchars($order['customer_name']); ?></td>
-                            <td><?php echo htmlspecialchars($order['customer_contact']); ?></td>
-                            <td><?php echo htmlspecialchars($order['customer_address']); ?></td>
-                            <td><?php echo htmlspecialchars($order['payment_method']); ?></td>
-                            <td>
-                                <a href="<?php echo SITEURL; ?>admin/update-order-takeout.php?id=<?php echo $order['id']; ?>" class="btn-secondary">Update</a>
-                                <a href="<?php echo SITEURL; ?>admin/delete-order-takeout.php?id=<?php echo $order['id']; ?>" class="btn-danger" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a><br>
-                                <a href="<?php echo SITEURL; ?>admin/print-receipt-takeout.php?txn=<?php echo urlencode($txn); ?>" class="btn-primary" target="_blank">Print Receipt</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <!-- Total row -->
-                        <tr class="total-row">
-                            <td colspan="4" style="text-align:right;">Total:</td>
-                            <td>₱<?php echo number_format($total_amount,2); ?></td>
-                            <td colspan="6"></td>
-                            <td>
-                                <a href="<?php echo SITEURL; ?>admin/delete-transaction-takeout.php?txn=<?php echo urlencode($txn); ?>" 
-                                   class="btn-danger" 
-                                   onclick="return confirm('Are you sure you want to delete ALL orders under this transaction?');">
-                                   Delete All
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            <?php endforeach; ?>
+            <div class="table-responsive">
+            <table class="tbl-full">
+                <tr>
+                    <th>Transaction</th>
+                    <th>Customer</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th>Actions</th>
+                </tr>
+                <?php foreach($orders as $txn => $items):
+                    $total_amount = array_sum(array_column($items,'total'));
+                    $item_summaries = [];
+                    foreach($items as $o){ $item_summaries[] = htmlspecialchars($o['food']).' x'.$o['qty']; }
+                    $items_str = implode(', ', $item_summaries);
+                    $order_date = $items[0]['order_date'];
+                    $customer = htmlspecialchars($items[0]['customer_name']);
+                    $contact = htmlspecialchars($items[0]['customer_contact']);
+                    $address = htmlspecialchars($items[0]['customer_address']);
+                    $statuses = array_unique(array_column($items,'status'));
+                    $status = count($statuses) === 1 ? htmlspecialchars($statuses[0]) : 'Mixed';
+                    $payment = htmlspecialchars($items[0]['payment_method']);
+                ?>
+                <tr>
+                    <td data-label="Transaction"><?php echo $txn; ?></td>
+                    <td data-label="Customer"><?php echo $customer; ?></td>
+                    <td data-label="Contact"><?php echo $contact; ?></td>
+                    <td data-label="Address"><?php echo $address; ?></td>
+                    <td data-label="Items"><?php echo $items_str; ?></td>
+                    <td data-label="Total">₱<?php echo number_format($total_amount,2); ?></td>
+                    <td data-label="Order Date"><?php echo $order_date; ?></td>
+                    <td data-label="Status"><?php echo $status; ?></td>
+                    <td data-label="Payment"><?php echo $payment; ?></td>
+                    <td data-label="Actions">
+                        <a href="<?php echo SITEURL; ?>admin/print-receipt-takeout.php?txn=<?php echo urlencode($txn); ?>" class="action-btn btn-primary" target="_blank"><i class="fa-solid fa-print"></i> Print</a>
+                        <a href="<?php echo SITEURL; ?>admin/delete-transaction-takeout.php?txn=<?php echo urlencode($txn); ?>" class="action-btn btn-delete" onclick="return confirm('Delete ALL orders under this transaction?');"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+            </div>
         <?php else: ?>
             <p class="error">Orders Not Available</p>
         <?php endif; ?>
     </div>
 </div>
 
-<style>
-    .main-content h1 {
-        margin-bottom: 15px;
-    }
-
-    .wrapper p.error {
-        margin: 10px 0;
-    }
-
-    .collapsible {
-        cursor: pointer;
-        padding: 10px;
-        width: 100%;
-        text-align: left;
-        background-color: #f1f1f1;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .arrow {
-        transition: transform 0.2s ease;
-        display: inline-block;
-    }
-
-    .arrow.open {
-        transform: rotate(90deg); /* ▶ turns ▼ */
-    }
-
-    .content {
-        display: none;
-        padding: 10px;
-        background-color: #fafafa;
-        border: 1px solid #ddd;
-        margin-bottom: 12px;
-        overflow-x: auto;
-    }
-
-    .tbl-full {
-        margin-top: 8px;
-    }
-
-    .tbl-full th, .tbl-full td {
-        padding: 8px 10px;
-        text-align: left;
-        min-width: 100px;
-    }
-
-    .total-row {
-        font-weight: bold;
-        background: #e9f5e9; /* light green highlight */
-        border-top: 2px solid #4CAF50;
-    }
-</style>
-
-<script>
-    function toggleCollapse(button, id){
-        var content = document.getElementById(id);
-        var arrow = button.querySelector('.arrow');
-
-        if(content.style.display === "block"){
-            content.style.display = "none";
-            arrow.classList.remove("open");
-        } else {
-            content.style.display = "block";
-            arrow.classList.add("open");
-        }
-    }
-</script>
+<!-- Table styles are handled in css/admin.css -->
 
 <?php include('partials/footer.php'); ?>

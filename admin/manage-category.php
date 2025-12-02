@@ -60,6 +60,7 @@
 
                 <br /><br /><br />
 
+                <div class="table-responsive">
                 <table class="tbl-full">
                     <tr>
                         <th>S.N</th>
@@ -101,20 +102,18 @@
                                 ?>
 
                                     <tr>
-                                        <td><?php echo $sn++ ?>. </td>
-                                        <td><?php echo $title; ?></td>
+                                        <td data-label="S.N"><?php echo $sn++ ?>. </td>
+                                        <td data-label="Title"><?php echo $title; ?></td>
 
-                                        <td>
+                                        <td data-label="Image">
                                             <?php
                                                 //Check whether image name is available or not
                                                 if($image_name!="")
                                                 {
                                                     //Display the image 
-                                                    ?>
-
-                                                    <img src="<?php echo SITEURL; ?>images/category/<?php echo $image_name; ?>" width="100px" >
-
-                                                    <?php
+                                            ?>
+                                                    <img src="<?php echo SITEURL; ?>images/category/<?php echo $image_name; ?>" alt="<?php echo htmlspecialchars($title); ?>" >
+                                            <?php
                                                 }
                                                 else
                                                 {
@@ -124,14 +123,13 @@
                                             ?>
                                         </td>
 
-                                        <td><?php echo $featured; ?></td>
-                                        <td><?php echo $active; ?></td>
-                                        <td>
-                                            <a href="<?php echo SITEURL; ?>admin/update-category.php?id=<?php echo $id; ?>" class="btn-secondary">♻️</a>
-                                            <a href="<?php echo SITEURL; ?>admin/delete-category.php?id=<?php echo $id; ?>&image_name=<?php echo $image_name; ?>" class="btn-danger">🗑️</a>
+                                        <td data-label="Featured"><?php echo $featured; ?></td>
+                                        <td data-label="Active"><?php echo $active; ?></td>
+                                        <td data-label="Actions">
+                                            <a title="Edit Category" href="<?php echo SITEURL; ?>admin/update-category.php?id=<?php echo $id; ?>" class="action-btn btn-edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a title="Delete Category" href="<?php echo SITEURL; ?>admin/delete-category.php?id=<?php echo $id; ?>&image_name=<?php echo $image_name; ?>" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this category?');"><i class="fa-solid fa-trash"></i></a>
                                         </td>
                                     </tr>
-
                                 <?php
 
                             }

@@ -47,6 +47,7 @@
 
                 ?>
 
+                <div class="table-responsive">
                 <table class="tbl-full">
                     <tr>
                         <th>S.N</th>
@@ -88,10 +89,10 @@
                                 ?>
 
                                 <tr>
-                                    <td><?php echo $sn++; ?>. </td>
-                                    <td><?php echo $title; ?></td>
-                                    <td>$<?php echo $price; ?></td>
-                                    <td>
+                                    <td data-label="S.N"><?php echo $sn++; ?>. </td>
+                                    <td data-label="Title"><?php echo $title; ?></td>
+                                    <td data-label="Price">$<?php echo $price; ?></td>
+                                    <td data-label="Image">
                                         <?php
                                             //Check whether we have image or not
                                             if($image_name=="")
@@ -103,17 +104,17 @@
                                             {
                                                 //We have image, Display image
                                                 ?>
-                                                <img src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>" width="100px">
+                                                <img src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>" alt="<?php echo htmlspecialchars($title); ?>">
                                                 <?php
                                             }
                                         ?>
                                     </td>
-                                    <td><?php echo $featured; ?></td>
-                                    <td><?php echo $active; ?></td>
-                                    <td>
-                                        <a href="<?php echo SITEURL; ?>admin/update-food.php?id=<?php echo $id; ?>" class="btn-secondary">♻️</a>
-                                        <a href="<?php echo SITEURL; ?>admin/delete-food.php?id=<?php echo $id; ?>&image_name=<?php echo $image_name; ?>" class="btn-danger">🗑️</a>
-                                        <a href="reset-ratings.php?food_id=<?php echo $id; ?>" class="btn-danger">Reset Ratings</a>
+                                    <td data-label="Featured"><?php echo $featured; ?></td>
+                                    <td data-label="Active"><?php echo $active; ?></td>
+                                    <td data-label="Actions">
+                                        <a title="Edit Food" href="<?php echo SITEURL; ?>admin/update-food.php?id=<?php echo $id; ?>" class="action-btn btn-edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a title="Delete Food" href="<?php echo SITEURL; ?>admin/delete-food.php?id=<?php echo $id; ?>&image_name=<?php echo $image_name; ?>" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this food item?');"><i class="fa-solid fa-trash"></i></a>
+                                        <a title="Reset Ratings" href="reset-ratings.php?food_id=<?php echo $id; ?>" class="action-btn btn-secondary"><i class="fa-solid fa-rotate"></i></a>
 
                                     </td>
                                 </tr>
