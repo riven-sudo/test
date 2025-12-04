@@ -23,10 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Hash password (you can change to MD5 if you want)
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert into DB
-    $sql = "INSERT INTO tbl_customer (username, email, password, status, is_member, discount) 
-            VALUES ('$username', '$email', '$hashedPassword', 'Pending', 1, 5)";
-    $res = mysqli_query($conn, $sql);
+    $sql = "INSERT INTO tbl_customer 
+(username, email, password, status, is_member, discount, google_id, profile_pic, name)
+VALUES ('$username', '$email', '$hashedPassword', 'Pending', 1, 5, NULL, NULL, NULL)";
+
 
     if ($res) {
         echo "<!DOCTYPE html>
