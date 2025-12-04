@@ -1,7 +1,7 @@
 
 <?php
 
-require_once __DIR__ . "/config/constants.php";   // Load DB connection FIRST
+session_start();  // Load DB connection FIRST
 include('partials-front/menu.php');
 ?>
 
@@ -1293,6 +1293,7 @@ body {
 </style>
 
 <?php include('partials-front/footer.php'); ?>
+
 
 
 
