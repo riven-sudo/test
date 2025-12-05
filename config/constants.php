@@ -40,6 +40,8 @@ if (!defined('CONFIG_LOADED')) {
         exit;
     }
 
+    // Start session safely
+
     // Define URL once
     if (!defined('SITEURL')) {
         define('SITEURL', 'https://test-1-v6th.onrender.com/');
