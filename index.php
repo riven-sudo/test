@@ -1,6 +1,6 @@
 
 <?php
-// Menu.php includes config/constants.php which starts session
+// session_start() is called in config/constants.php (included by menu.php)
 include('partials-front/menu.php');
 ?>
 
