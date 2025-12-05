@@ -1,6 +1,13 @@
 <?php
 // ====================================================
-// Start output buffering FIRST → prevents header errors
+// Start session FIRST (before any output)
+// ====================================================
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ====================================================
+// Start output buffering → prevents header errors
 // ====================================================
 if (!defined('OUTPUT_BUFFERING_STARTED')) {
     define('OUTPUT_BUFFERING_STARTED', true);
@@ -32,8 +39,6 @@ if (!defined('CONFIG_LOADED')) {
         error_log("MySQL Connection Error: " . mysqli_connect_error());
         exit;
     }
-
-    // Start session safely
 
     // Define URL once
     if (!defined('SITEURL')) {
