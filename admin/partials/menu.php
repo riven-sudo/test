@@ -35,13 +35,13 @@ include('login-check.php');
                     <?php } ?>
 
                     <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'kitchen') { ?>
-                        <li><a href="manage-order-dinein.php">Dine-In Orders</a></li>
-                        <li><a href="manage-order-takeout.php">Take-Out Orders</a></li>
+                        <li><a href="manage-order-dinein.php">Take-Out Orders</a></li>
+                        <li><a href="manage-order-takeout.php">Delivery Orders</a></li>
                     <?php } ?>
 
                     <?php if($_SESSION['role'] == 'delivery') { ?>
-                        <li><a href="manage-order-takeout.php">Take-Out Orders</a></li>
-                        <li><a href="manage-order-dinein.php">Dine-In Orders</a></li>
+                        <li><a href="manage-order-takeout.php">Delivery Orders</a></li>
+                        
                     <?php } ?>
 
                     <li><a href="logout.php">Logout</a></li>
