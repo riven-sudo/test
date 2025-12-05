@@ -1,7 +1,6 @@
 
 <?php
-
-session_start();  // Load DB connection FIRST
+// Menu.php includes config/constants.php which starts session
 include('partials-front/menu.php');
 ?>
 
