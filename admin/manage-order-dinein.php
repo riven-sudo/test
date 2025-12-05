@@ -1,10 +1,17 @@
 <?php include('partials/menu.php'); ?>
 
-<?php include('partials/admin-check.php'); ?>
+<?php 
+// Allow admin and kitchen staff to access this page
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'kitchen'])) {
+    $_SESSION['no-access'] = "<div class='error text-center'>Access Denied. Admins and Kitchen Staff only.</div>";
+    header('location:'.SITEURL.'admin/index.php');
+    exit();
+}
+?>
 
 <div class="main-content">
     <div class="wrapper">
-        <h1>Manage Orders Take-outs</h1>
+        <h1>Manage Orders Take-Out Orders</h1>
 
         <?php
         if(isset($_SESSION['update'])) {
@@ -66,6 +73,7 @@
                     <td data-label="Status"><?php echo $status; ?></td>
                     <td data-label="Payment"><?php echo $payment; ?></td>
                     <td data-label="Actions">
+                        <a href="<?php echo SITEURL; ?>admin/update-order.php?id=<?php echo $items[0]['id']; ?>" class="action-btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i> Update</a>
                         <a href="<?php echo SITEURL; ?>admin/print-receipt-dinein.php?txn=<?php echo urlencode($txn); ?>" class="action-btn btn-primary" target="_blank"><i class="fa-solid fa-print"></i> Print</a>
                         <a href="<?php echo SITEURL; ?>admin/delete-transaction.php?txn=<?php echo urlencode($txn); ?>" class="action-btn btn-delete" onclick="return confirm('Delete ALL orders under this transaction?');"><i class="fa-solid fa-trash"></i></a>
                     </td>
