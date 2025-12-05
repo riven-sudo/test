@@ -1,6 +1,6 @@
 
 <?php
-// session_start() is called in config/constants.php (included by menu.php)
+include_once('config/constants.php'); 
 include('partials-front/menu.php');
 ?>
 
@@ -1292,6 +1292,7 @@ body {
 </style>
 
 <?php include('partials-front/footer.php'); ?>
+
 
 
 
