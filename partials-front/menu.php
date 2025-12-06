@@ -1,10 +1,6 @@
 <?php 
 include('config/constants.php'); 
 $loggedInUser = $_SESSION['customer'] ?? null;
-?>
-
-<?php
-
 
 $total_qty = 0;
 if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
@@ -13,8 +9,6 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
