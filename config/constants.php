@@ -1,17 +1,28 @@
 <?php
 // ====================================================
-// Start session FIRST (before any output)
-// ====================================================
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// ====================================================
-// Start output buffering → prevents header errors
+// Start output buffering BEFORE anything else to prevent
+// "headers already sent" errors from BOM or stray whitespace
 // ====================================================
 if (!defined('OUTPUT_BUFFERING_STARTED')) {
     define('OUTPUT_BUFFERING_STARTED', true);
-    ob_start();
+    if (ob_get_level() === 0) {
+        ob_start();
+    }
+}
+
+// ====================================================
+// Start session (after buffering started)
+// ====================================================
+if (session_status() === PHP_SESSION_NONE) {
+    if (!headers_sent()) {
+        session_start();
+    } else {
+        // If headers were already sent, ensure buffering and try to start session
+        if (ob_get_level() === 0) {
+            ob_start();
+        }
+        @session_start();
+    }
 }
 
 // ====================================================
