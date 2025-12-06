@@ -46,9 +46,9 @@ if (isset($_POST['submit_order'])) {
             $table_number = '';
 
             $sql_insert = "INSERT INTO tbl_order 
-                (transaction_number, food, price, qty, total, order_date, status, customer_name, table_number, payment_method, order_type) 
+                (transaction_number, customer_id, food, price, qty, total, order_date, status, customer_name, table_number, payment_method, order_type) 
                 VALUES 
-                ('$transaction_number', '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$table_number', '$payment_method', 'Take-out')";
+                ('$transaction_number', $customer_id, '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$table_number', '$payment_method', 'Take-out')";
 
             mysqli_query($conn, $sql_insert);
         }
