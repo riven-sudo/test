@@ -21,6 +21,7 @@ if ($customer_id) {
 // ✅ Handle takeout order submission
 if (isset($_POST['submit_order'])) {
     $customer_name    = mysqli_real_escape_string($conn, $_POST['name']);
+    $customer_email   = mysqli_real_escape_string($conn, $_POST['email']);
     $customer_contact = mysqli_real_escape_string($conn, $_POST['contact']);
     $customer_address = mysqli_real_escape_string($conn, $_POST['address']);
     $payment_method   = mysqli_real_escape_string($conn, $_POST['payment_method']);
@@ -43,9 +44,9 @@ if (isset($_POST['submit_order'])) {
             $total_order += $total;
 
             $sql_insert = "INSERT INTO tbl_takeout 
-                (transaction_number, food, price, qty, total, order_date, status, customer_name, customer_contact, customer_address, payment_method, order_type) 
+                (transaction_number, food, price, qty, total, order_date, status, customer_name, customer_email, customer_contact, customer_address, payment_method, order_type) 
                 VALUES 
-                ('$transaction_number', '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$customer_contact', '$customer_address', '$payment_method', 'Takeout')";
+                ('$transaction_number', '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$customer_email', '$customer_contact', '$customer_address', '$payment_method', 'Takeout')";
             mysqli_query($conn, $sql_insert);
         }
 
