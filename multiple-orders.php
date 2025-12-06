@@ -41,10 +41,16 @@ if (isset($_POST['submit_order'])) {
 
             $total_order += $total; // sum total for order
 
+            // Ensure required columns are provided. For Take-out there is no table number,
+            // so insert an empty value for `table_number` and empty contact/address fields.
+            $customer_contact = '';
+            $table_number = '';
+            $customer_address = '';
+
             $sql_insert = "INSERT INTO tbl_order 
-                (transaction_number, food, price, qty, total, order_date, status, customer_name, payment_method, order_type) 
+                (transaction_number, food, price, qty, total, order_date, status, customer_name, customer_contact, table_number, customer_address, payment_method, order_type) 
                 VALUES 
-                ('$transaction_number', '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$payment_method', 'Take-out')";
+                ('$transaction_number', '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$customer_contact', '$table_number', '$customer_address', '$payment_method', 'Take-out')";
 
             mysqli_query($conn, $sql_insert);
         }
