@@ -92,7 +92,7 @@ if ($res_orders && mysqli_num_rows($res_orders) > 0) {
 <body>
 
 <h1>📦 Delivery Orders</h1>
-<button onclick="window.location.href='Multiple-orders.php'">Go to Take-outs</button>
+<button onclick="window.location.href='multiple-orders.php'">Go to Take-outs</button>
 
 <?php if (empty($orders)): ?>
     <p>No Delivery orders found.</p>
