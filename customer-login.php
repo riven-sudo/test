@@ -1,8 +1,5 @@
-
 <?php include('config/constants.php');
  ?>
-
-
 <?php 
 if (isset($_SESSION['login'])) {
     echo $_SESSION['login'];
