@@ -1,8 +1,6 @@
 <?php
 include('partials-front/menu.php');
 ?>
-
-
 <?php
 // Initialize cart
 if (!isset($_SESSION['cart'])) {
