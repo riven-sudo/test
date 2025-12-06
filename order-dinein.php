@@ -103,6 +103,7 @@
                 $payment_method = $_POST['payment'];
 
                 // Save the order in database
+                // Save the order in database. Use proper column for table number.
                 $sql2 = "INSERT INTO tbl_order SET
                     food = '$food',
                     price = $price,
@@ -111,7 +112,7 @@
                     order_date = '$order_date',
                     status = '$status',
                     customer_name = '$customer_name',
-                    customer_contact = '$table_number',
+                    table_number = '$table_number',
                     payment_method = '$payment_method'
                 ";
 
