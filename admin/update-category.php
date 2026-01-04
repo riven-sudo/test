@@ -5,9 +5,10 @@
         <div class="wrapper">
             <h1>Update Category</h1>
 
-            <br><br>
+            <br>
 
             <?php
+            echo '<div class="admin-card"><h2>Update Category</h2>'; 
             
                 //Check whether the id is set or not
                 if(isset($_GET['id']))
@@ -118,6 +119,7 @@
                 </table>
 
             </form>
+            </div>
 
             <?php
             
@@ -218,27 +220,12 @@
                     {
                         //Category Updated
                         $_SESSION['update'] = "<div class='success'>Category Updated Successfully</div>";
-
-                        // Audit: record update (include old and new values)
-                        $old_row = isset($row) ? $row : null;
-                        $new_row = array(
-                            'title' => $title,
-                            'image_name' => $image_name,
-                            'featured' => $featured,
-                            'active' => $active
-                        );
-                        @Audit::log('update_category', 'tbl_category', $id, $old_row, $new_row);
-
                         header('location:'.SITEURL.'admin/manage-category.php');
                     }
                     else
                     {
                         //Failed to update Category
                         $_SESSION['update'] = "<div class='error'>Failed to Update Category</div>";
-
-                        // Audit: failed update
-                        @Audit::log('update_category_failed', 'tbl_category', $id, isset($row)?$row:null, array('attempt'=>array('title'=>$title)));
-
                         header('location:'.SITEURL.'admin/manage-category.php');
                     }
 

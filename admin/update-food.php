@@ -36,11 +36,6 @@ if (isset($_POST['submit'])) {
         $image_name = $current_image;
     }
 
-    // Fetch old row for audit
-    $old_row = null;
-    $sel_old = mysqli_query($conn, "SELECT * FROM tbl_food WHERE id=$id LIMIT 1");
-    if ($sel_old && mysqli_num_rows($sel_old) == 1) $old_row = mysqli_fetch_assoc($sel_old);
-
     // Update DB
     $sql3 = "UPDATE tbl_food SET
         title = '$title',
@@ -54,14 +49,10 @@ if (isset($_POST['submit'])) {
 
     $res3 = mysqli_query($conn, $sql3);
 
-    $new_row = array('title'=>$title,'description'=>$description,'price'=>$price,'image_name'=>$image_name,'category_id'=>$category,'featured'=>$featured,'active'=>$active);
-
     if ($res3 == true) {
         $_SESSION['update'] = "<div class='success'>Food updated Successfully</div>";
-        @Audit::log('update_food', 'tbl_food', $id, $old_row, $new_row);
     } else {
         $_SESSION['update'] = "<div class='error'>Failed to update food</div>";
-        @Audit::log('update_food_failed', 'tbl_food', $id, $old_row, $new_row);
     }
 
     header('location:' . SITEURL . 'admin/manage-food.php');
@@ -92,8 +83,9 @@ if (isset($_GET['id'])) {
 <div class="main-content">
     <div class="wrapper">
         <h1>Update Food</h1>
-        <br><br>
+        <br>
 
+        <div class="admin-card"><h2>Update Food</h2>
         <form action="" method="POST" enctype="multipart/form-data">
             <table class="tbl-30">
                 <tr>
@@ -171,13 +163,16 @@ if (isset($_GET['id'])) {
 
                 <tr>
                     <td>
-                        <input type="hidden" name="id" value="<?php echo $id; ?>">
-                        <input type="hidden" name="current_image" value="<?php echo $current_image; ?>">
-                        <input type="submit" name="submit" value="Update Food" class="btn-secondary">
+                        <div class="form-actions">
+                            <input type="hidden" name="id" value="<?php echo $id; ?>">
+                            <input type="hidden" name="current_image" value="<?php echo $current_image; ?>">
+                            <input type="submit" name="submit" value="Update Food" class="btn-secondary">
+                        </div>
                     </td>
                 </tr>
             </table>
         </form>
+        </div>
     </div>
 </div>
 

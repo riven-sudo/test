@@ -5,7 +5,9 @@
     <div class="wrapper">
         <h1>Update Admin</h1>
 
-        <br><br>
+        <br>
+
+        <div class="admin-card"><h2>Update Admin</h2>
 
         <?php
             //Get the ID  of Selected Admin
@@ -59,14 +61,17 @@
 
                 <tr>
                     <td colspan="2">
-                        <input type="hidden" name="id" value="<?php echo $id; ?>">
-                        <input type="submit" name="submit" value="Update Admin" class="btn-secondary">
+                        <div class="form-actions">
+                            <input type="hidden" name="id" value="<?php echo $id; ?>">
+                            <input type="submit" name="submit" value="Update Admin" class="btn-secondary">
+                        </div>
                     </td>
-                </tr>
+                </tr> 
 
             </table>
 
         </form>
+        </div>
     </div>
 </div>
 
@@ -82,11 +87,6 @@
         $username = $_POST['username'];
 
         //Create a SQL Query to Update Admin
-        // Fetch old row
-        $old_row = null;
-        $sel_old = mysqli_query($conn, "SELECT * FROM tbl_admin WHERE id=$id LIMIT 1");
-        if ($sel_old && mysqli_num_rows($sel_old) == 1) $old_row = mysqli_fetch_assoc($sel_old);
-
         $sql = "UPDATE tbl_admin SET
         full_name = '$full_name',
         username = '$username' 
@@ -101,7 +101,6 @@
         {
             //Query executed and Admin Updated
             $_SESSION['update'] = "<div class='success'>Admin Updated Successfully.</div>";
-            @Audit::log('update_admin', 'tbl_admin', $id, $old_row, array('full_name'=>$full_name,'username'=>$username));
             //Redirect to Manage Admin page
             header('location:'.SITEURL.'admin/manage-admin.php');
         }
@@ -109,7 +108,6 @@
         {
             //Failed to Update Admin
             $_SESSION['update'] = "<div class='error'>Failed to Delete Admin.</div>";
-            @Audit::log('update_admin_failed', 'tbl_admin', $id, $old_row, array('full_name'=>$full_name,'username'=>$username));
             //Redirect to Manage Admin page
             header('location:'.SITEURL.'admin/manage-admin.php');
         }

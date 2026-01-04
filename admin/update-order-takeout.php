@@ -3,9 +3,10 @@
 <div class="main-content">
     <div class="wrapper">
         <h1>Update Order takeout</h1>
-        <br><br>
+        <br>
 
         <?php
+        echo '<div class="admin-card"><h2>Update Order</h2>'; 
         
             //Check whether id is set or not
             if(isset($_GET['id']))
@@ -152,6 +153,7 @@
 
 
         </form>
+        </div>
 
         <?php
             //Check whethe update button is clicked or not
@@ -193,18 +195,14 @@
 
     $res2 = mysqli_query($conn, $sql2);
 
-    $new_row = array('food'=>$food,'price'=>$price,'qty'=>$qty,'total'=>$total,'status'=>$status,'customer_name'=>$customer_name,'customer_contact'=>$customer_contact,'customer_email'=>$customer_email,'customer_address'=>$customer_address,'payment_method'=>$payment_method);
-
     if($res2==true)
     {
         $_SESSION['update'] = "<div class='success'>Order Updated Successfully</div>";
-        @Audit::log('update_takeout_order', 'tbl_takeout', $id, isset($row)?$row:null, $new_row);
         header('location:'.SITEURL.'admin/manage-order-takeout.php');
     }
     else
     {
         $_SESSION['update'] = "<div class='error'>Failed to Update Order</div>";
-        @Audit::log('update_takeout_order_failed', 'tbl_takeout', $id, isset($row)?$row:null, $new_row);
         header('location:'.SITEURL.'admin/manage-order-takeout.php');
     }
 }
