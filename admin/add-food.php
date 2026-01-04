@@ -228,12 +228,18 @@
                 {
                     //data inserted successfully
                     $_SESSION['add'] = "<div class='success'>Food Added Successfully</div>";
+
+                    $inserted_id = mysqli_insert_id($conn);
+                    $new_row = array('title'=>$title,'description'=>$description,'price'=>$price,'image_name'=>$image_name,'category_id'=>$category,'featured'=>$featured,'active'=>$active);
+                    @Audit::log('create_food', 'tbl_food', $inserted_id, null, $new_row);
+
                     header('location:'.SITEURL.'admin/manage-food.php');
                 }
                 else
                 {
                     //Failed to insert data
                     $_SESSION['add'] = "<div class='error'>Failed to Add Food</div>";
+                    @Audit::log('create_food_failed', 'tbl_food', null, null, array('title'=>$title));
                     header('location:'.SITEURL.'admin/manage-food.php');
                 }
 

@@ -32,6 +32,13 @@
             }
         }
 
+        // Fetch the existing row for audit
+        $old_row = null;
+        $sel_old = mysqli_query($conn, "SELECT * FROM tbl_category WHERE id=$id LIMIT 1");
+        if ($sel_old && mysqli_num_rows($sel_old) == 1) {
+            $old_row = mysqli_fetch_assoc($sel_old);
+        }
+
         //Delete data from database 
         //SQL Query delete data from databse
         $sql = "DELETE FROM tbl_category WHERE id=$id";
@@ -44,6 +51,9 @@
         {
             //Set Success message and redirect
             $_SESSION['delete'] = "<div class='success'>Category Deleted Successfully</div>";
+
+            @Audit::log('delete_category', 'tbl_category', $id, $old_row, null);
+
             //Redirect to manage category
             header('location:'.SITEURL.'admin/manage-category.php');
         }
@@ -51,6 +61,7 @@
         {
             //Set fail message and redirect
             $_SESSION['delete'] = "<div class='error'>Failed To Delete Category.</div>";
+            @Audit::log('delete_category_failed', 'tbl_category', $id, $old_row, null);
             //Redirect to manage category
             header('location:'.SITEURL.'admin/manage-category.php');
         }

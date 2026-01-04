@@ -82,6 +82,8 @@ if (isset($_POST['submit_order'])) {
                 ('$transaction_number', '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$payment_method', 'Take-out', $table_number, $customer_id)";
 
             mysqli_query($conn, $sql_insert);
+            $inserted_id = mysqli_insert_id($conn);
+            @Audit::log('create_order', 'tbl_order', $inserted_id, null, array('transaction_number'=>$transaction_number,'food'=>$food,'qty'=>$qty,'price'=>$price,'total'=>$total,'customer_name'=>$customer_name,'payment_method'=>$payment_method));
         }
 
         // clear cart after saving

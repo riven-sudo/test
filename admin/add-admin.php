@@ -88,10 +88,17 @@ if(isset($_POST['submit'])) {
 
     if($res) {
         $_SESSION['add'] = "<div class='success'>User Added Successfully</div>";
+
+        // Audit: record new admin (mask PIN)
+        $inserted_id = mysqli_insert_id($conn);
+        $new_row = array('full_name'=>$full_name, 'username'=>$username, 'role'=>$role, 'pin'=>'***');
+        @Audit::log('create_admin', 'tbl_admin', $inserted_id, null, $new_row);
+
         header("location:".SITEURL.'admin/manage-admin.php');
         exit();
     } else {
         $_SESSION['add'] = "<div class='error'>Failed to Add User</div>";
+        @Audit::log('create_admin_failed', 'tbl_admin', null, null, array('username'=>$username));
         header("location:".SITEURL.'admin/add-admin.php');
         exit();
     }

@@ -38,6 +38,13 @@
             }
         }
 
+        // Fetch existing row for audit
+        $old_row = null;
+        $sel_old = mysqli_query($conn, "SELECT * FROM tbl_food WHERE id=$id LIMIT 1");
+        if ($sel_old && mysqli_num_rows($sel_old) == 1) {
+            $old_row = mysqli_fetch_assoc($sel_old);
+        }
+
         //Delete Food from database
         $sql = "DELETE FROM tbl_food WHERE id=$id";
 
@@ -50,12 +57,14 @@
         {
             //Food Deleted
             $_SESSION['delete'] = "<div class='success'>Food Deleted Successfully</div>";
+            @Audit::log('delete_food', 'tbl_food', $id, $old_row, null);
             header('location:'.SITEURL.'admin/manage-food.php');
         }
         else
         {
             //Failed to Delete Food
             $_SESSION['delete'] = "<div class='error'>Failed to Delete Food</div>";
+            @Audit::log('delete_food_failed', 'tbl_food', $id, $old_row, null);
             header('location:'.SITEURL.'admin/manage-food.php');
         }
 

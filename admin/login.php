@@ -76,11 +76,15 @@ if(isset($_POST['submit'])) {
             $_SESSION['user'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
+            // Audit admin login
+            @Audit::log('admin_login', 'tbl_admin', $user['id'], null, array('username'=>$user['username']), array('success'=>true));
+
             // Redirect to dashboard
             header('location:'.SITEURL.'admin/index.php');
             exit();
         } else {
             $_SESSION['login'] = "<div class='error text-center'>Invalid Username or Password</div>";
+            @Audit::log('admin_login_failed', null, null, null, array('username'=>$username), array('reason'=>'invalid_password'));
             header('location:'.SITEURL.'admin/login.php');
             exit();
         }

@@ -99,6 +99,8 @@
                                 //Display Success Message
                                 //Redirect to Manange admin page with Success message
                                 $_SESSION['change-pwd'] = "<div class='success'>Password Changed Successfully</div>";
+                                // Audit password change event (no password content)
+                                @Audit::log('change_admin_password', 'tbl_admin', $id, null, null, array('reason'=>'user_initiated'));
                                 //Redirect the user
                                 header('location:'.SITEURL.'admin/manage-admin.php');
                             }
@@ -106,6 +108,7 @@
                             {
                                 //Display Error Message
                                 $_SESSION['change-pwd'] = "<div class='error'>Failed to Change Password</div>";
+                                @Audit::log('change_admin_password_failed', 'tbl_admin', $id, null, null);
                                 //Redirect the user
                                 header('location:'.SITEURL.'admin/manage-admin.php');
                             }

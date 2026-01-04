@@ -163,12 +163,19 @@
                     {
                         //Query Executed and order saved
                         $_SESSION['order'] = "<div class='success text-center'>Food Ordered Successfully</div>";
+
+                        // Audit: record takeout order
+                        $inserted_id = mysqli_insert_id($conn);
+                        $new_row = array('food'=>$food,'price'=>$price,'qty'=>$qty,'total'=>$total,'customer_name'=>$customer_name,'contact'=>$customer_contact,'email'=>$customer_email,'address'=>$customer_address,'payment_method'=>$payment_method);
+                        @Audit::log('create_takeout_order', 'tbl_takeout', $inserted_id, null, $new_row);
+
                         header('location:'.SITEURL);
                     }
                     else
                     {
                         //Failed to save order
                         $_SESSION['order'] = "<div class='error text-center'>Failed to Order Food</div>";
+                        @Audit::log('create_takeout_order_failed', null, null, null, array('food'=>$food,'customer_name'=>$customer_name));
                         header('location:'.SITEURL);
                     }
 

@@ -121,11 +121,18 @@
                 if($res2==true)
                 {
                     $_SESSION['order'] = "<div class='success text-center'>Food Ordered Successfully</div>";
+
+                    // Audit: record dine-in order
+                    $inserted_id = mysqli_insert_id($conn);
+                    $new_row = array('food'=>$food,'price'=>$price,'qty'=>$qty,'total'=>$total,'table_number'=>$table_number,'payment_method'=>$payment_method,'customer_name'=>$customer_name);
+                    @Audit::log('create_dinein_order', 'tbl_order', $inserted_id, null, $new_row);
+
                     header('location:'.SITEURL);
                 }
                 else
                 {
                     $_SESSION['order'] = "<div class='error text-center'>Failed to Order Food</div>";
+                    @Audit::log('create_dinein_order_failed', null, null, null, array('food'=>$food,'customer_name'=>$customer_name));
                     header('location:'.SITEURL);
                 }
             }

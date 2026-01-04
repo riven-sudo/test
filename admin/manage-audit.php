@@ -10,6 +10,21 @@
         <?php
         $rows = Audit::fetchRecent(200);
 
+        // Helper: safely format audit values (handles nulls and pretty-prints JSON)
+        if (!function_exists('fmt_audit')) {
+            function fmt_audit($v) {
+                if ($v === null || $v === '') return '';
+                // Ensure we have a string
+                if (!is_string($v)) $v = (string)$v;
+                // Try to decode JSON and pretty-print if valid
+                $decoded = json_decode($v, true);
+                if (json_last_error() === JSON_ERROR_NONE && (is_array($decoded) || is_object($decoded))) {
+                    return htmlspecialchars(json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                }
+                return htmlspecialchars($v);
+            }
+        }
+
         // Export CSV
         if (isset($_GET['export']) && $_GET['export'] == '1') {
             header('Content-Type: text/csv');
@@ -44,18 +59,18 @@
                 <tbody>
                     <?php foreach ($rows as $row): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['id']); ?></td>
-                            <td><?php echo htmlspecialchars($row['created_at']); ?></td>
-                            <td><?php echo htmlspecialchars(($row['user_type']? $row['user_type'] : '') . ' ' . ($row['username'] ?? $row['user_id'])); ?></td>
-                            <td><?php echo htmlspecialchars($row['action']); ?></td>
-                            <td><?php echo htmlspecialchars($row['entity'] . '#' . $row['entity_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['id'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($row['created_at'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars((($row['user_type'] ?? '') ? $row['user_type'] : '') . ' ' . ($row['username'] ?? $row['user_id'] ?? '')); ?></td>
+                            <td><?php echo htmlspecialchars($row['action'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars((($row['entity'] ?? '') . '#' . ($row['entity_id'] ?? ''))); ?></td>
                             <td style="max-width:400px;overflow:auto;"> 
                                 <strong>Old:</strong>
-                                <pre style="white-space:pre-wrap;margin:0;"><?php echo htmlspecialchars($row['old_value']); ?></pre>
+                                <pre style="white-space:pre-wrap;margin:0;"><?php echo fmt_audit($row['old_value'] ?? ''); ?></pre>
                                 <strong>New:</strong>
-                                <pre style="white-space:pre-wrap;margin:0;"><?php echo htmlspecialchars($row['new_value']); ?></pre>
+                                <pre style="white-space:pre-wrap;margin:0;"><?php echo fmt_audit($row['new_value'] ?? ''); ?></pre>
                             </td>
-                            <td><?php echo htmlspecialchars($row['ip']); ?></td>
+                            <td><?php echo htmlspecialchars($row['ip'] ?? ''); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

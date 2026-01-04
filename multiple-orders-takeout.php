@@ -83,6 +83,8 @@ if (isset($_POST['submit_order'])) {
                 VALUES 
                 ('$transaction_number', '$food', $price, $qty, $total, NOW(), 'Preparing', '$customer_name', '$customer_contact', '$customer_address', '$customer_email', '$payment_method', 'Takeout')";
             mysqli_query($conn, $sql_insert);
+            $inserted_id = mysqli_insert_id($conn);
+            @Audit::log('create_takeout_order', 'tbl_takeout', $inserted_id, null, array('transaction_number'=>$transaction_number,'food'=>$food,'qty'=>$qty,'price'=>$price,'total'=>$total,'customer_name'=>$customer_name,'payment_method'=>$payment_method));
         }
 
         // ✅ Clear cart

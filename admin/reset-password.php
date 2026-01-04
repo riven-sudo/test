@@ -13,9 +13,12 @@ if (isset($_SESSION['reset_user_id'])) {
 
         if ($resUpdate) {
             unset($_SESSION['reset_user_id']); // clear reset session
+            // Audit password reset event (no password content)
+            @Audit::log('admin_password_reset', 'tbl_admin', $user_id, null, null, array('method'=>'reset'));
             echo "<div class='success'>Password updated! <a href='login.php'>Login</a></div>";
             exit();
         } else {
+            @Audit::log('admin_password_reset_failed', 'tbl_admin', $user_id, null, null);
             echo "<div class='error'>Failed to update password. Try again.</div>";
         }
     }

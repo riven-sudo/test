@@ -76,10 +76,15 @@ if (isset($_POST['submit'])) {
 
     $res2 = mysqli_query($conn, $sql2);
 
+    // Prepare new row for audit
+    $new_row = array('food'=>$food,'price'=>$price,'qty'=>$qty,'total'=>$total,'status'=>$status,'customer_name'=>$customer_name,'payment_method'=>$payment_method);
+
     if ($res2) {
         $_SESSION['update'] = "<div class='success'>Order Updated Successfully".($discount > 0 ? " (Member Discount Applied: {$discount}%)" : "")."</div>";
+        @Audit::log('update_order', 'tbl_order', $id, isset($row)?$row:null, $new_row);
     } else {
         $_SESSION['update'] = "<div class='error'>Failed to Update Order</div>";
+        @Audit::log('update_order_failed', 'tbl_order', $id, isset($row)?$row:null, $new_row);
     }
 
     header('location:' . SITEURL . 'admin/manage-order-dinein.php');
