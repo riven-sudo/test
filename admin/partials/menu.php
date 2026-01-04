@@ -30,6 +30,7 @@ include('login-check.php');
                     <?php if($_SESSION['role'] == 'admin') { ?>
                         <li><a href="manage-admin.php">Admins</a></li>
                         <li><a href="manage-customer.php">Customers</a></li>
+                        <li><a href="manage-audit.php">Audit Logs</a></li>
                         <li><a href="manage-category.php">Categories</a></li>
                         <li><a href="manage-food.php">Foods</a></li>
                     <?php } ?>

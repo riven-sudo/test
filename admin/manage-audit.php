@@ -30,9 +30,9 @@
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="audit_export.csv"');
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['id','created_at','user_type','user_id','username','action','entity','entity_id','ip','user_agent','url']);
+            fputcsv($out, ['id','created_at','user_type','user_id','username','action','ip','user_agent','url']);
             foreach ($rows as $r) {
-                fputcsv($out, [$r['id'],$r['created_at'],$r['user_type'],$r['user_id'],$r['username'],$r['action'],$r['entity'],$r['entity_id'],$r['ip'],$r['user_agent'],$r['url']]);
+                fputcsv($out, [$r['id'],$r['created_at'],$r['user_type'],$r['user_id'],$r['username'],$r['action'],$r['ip'],$r['user_agent'],$r['url']]);
             }
             fclose($out);
             exit();
@@ -51,7 +51,6 @@
                         <th>Time</th>
                         <th>User</th>
                         <th>Action</th>
-                        <th>Entity</th>
                         <th>IP</th>
                     </tr>
                 </thead>
@@ -62,7 +61,6 @@
                             <td><?php echo htmlspecialchars($row['created_at'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars((($row['user_type'] ?? '') ? $row['user_type'] : '') . ' ' . ($row['username'] ?? $row['user_id'] ?? '')); ?></td>
                             <td><?php echo htmlspecialchars($row['action'] ?? ''); ?></td>
-                            <td><?php echo htmlspecialchars((($row['entity'] ?? '') . '#' . ($row['entity_id'] ?? ''))); ?></td>
                             <td><?php echo htmlspecialchars($row['ip'] ?? ''); ?></td>
                         </tr>
                     <?php endforeach; ?>

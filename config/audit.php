@@ -53,16 +53,16 @@ class Audit {
         if (is_array($new)) $new = self::maskSensitive($new);
         if (is_array($meta)) $meta = self::maskSensitive($meta);
 
-        // We only store a concise action; do not persist verbose old/new/meta details.
+        // We only store a concise action; do not persist verbose old/new/meta details or entity identifiers.
         $ip = self::getIP();
         $ua = $_SERVER['HTTP_USER_AGENT'] ?? null;
         $url = (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http')) . '://' . ($_SERVER['HTTP_HOST'] ?? '') . ($_SERVER['REQUEST_URI'] ?? '');
 
-        $sql = "INSERT INTO audit_logs (user_type, user_id, username, action, entity, entity_id, ip, user_agent, url) VALUES (?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO audit_logs (user_type, user_id, username, action, ip, user_agent, url) VALUES (?,?,?,?,?,?,?)";
         $stmt = mysqli_prepare($conn, $sql);
         if (!$stmt) return false;
 
-        mysqli_stmt_bind_param($stmt, 'sisssssss', $user_type, $user_id, $username, $action, $entity, $entity_id, $ip, $ua, $url);
+        mysqli_stmt_bind_param($stmt, 'sisssss', $user_type, $user_id, $username, $action, $ip, $ua, $url);
 
         $ok = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
