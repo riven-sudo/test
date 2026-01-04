@@ -1,0 +1,152 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    background: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Wrapper */
+.wrapper {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: white;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
+}
+
+.navbar .menu ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .menu ul li {
+    display: inline;
+}
+
+.navbar .menu ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: orange;
+    transition: 0.3s;
+}
+
+.navbar .menu ul li a:hover {
+    color: orangered;
+}
+
+/* Auth Container */
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.auth-container input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.auth-container input:focus {
+    border-color: orange;
+    outline: none;
+    box-shadow: 0 0 8px rgba(255,165,0,0.3);
+}
+
+/* Buttons */
+.glow-btn, .btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: orange;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.glow-btn:hover, .btn:hover {
+    background: orangered;
+}
+
+/* Toggle Links */
+.toggle-links {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.toggle-links a {
+    color: orange;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.toggle-links a:hover {
+    color: orangered;
+}
+
+/* Messages */
+.success {
+    color: #2ed573;
+    margin: 10px 0;
+}
+
+.error {
+    color: #ff4757;
+    margin: 10px 0;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+body.dark-mode .auth-container {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .auth-container input {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+body.dark-mode .auth-container input::placeholder {
+    color: #bbb;
+}
