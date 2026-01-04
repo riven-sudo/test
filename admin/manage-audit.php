@@ -30,9 +30,9 @@
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="audit_export.csv"');
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['id','created_at','user_type','user_id','username','action','entity','entity_id','old_value','new_value','meta','ip','user_agent','url']);
+            fputcsv($out, ['id','created_at','user_type','user_id','username','action','entity','entity_id','ip','user_agent','url']);
             foreach ($rows as $r) {
-                fputcsv($out, [$r['id'],$r['created_at'],$r['user_type'],$r['user_id'],$r['username'],$r['action'],$r['entity'],$r['entity_id'],$r['old_value'],$r['new_value'],$r['meta'],$r['ip'],$r['user_agent'],$r['url']]);
+                fputcsv($out, [$r['id'],$r['created_at'],$r['user_type'],$r['user_id'],$r['username'],$r['action'],$r['entity'],$r['entity_id'],$r['ip'],$r['user_agent'],$r['url']]);
             }
             fclose($out);
             exit();
@@ -52,7 +52,6 @@
                         <th>User</th>
                         <th>Action</th>
                         <th>Entity</th>
-                        <th>Details</th>
                         <th>IP</th>
                     </tr>
                 </thead>
@@ -64,12 +63,6 @@
                             <td><?php echo htmlspecialchars((($row['user_type'] ?? '') ? $row['user_type'] : '') . ' ' . ($row['username'] ?? $row['user_id'] ?? '')); ?></td>
                             <td><?php echo htmlspecialchars($row['action'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars((($row['entity'] ?? '') . '#' . ($row['entity_id'] ?? ''))); ?></td>
-                            <td style="max-width:400px;overflow:auto;"> 
-                                <strong>Old:</strong>
-                                <pre style="white-space:pre-wrap;margin:0;"><?php echo fmt_audit($row['old_value'] ?? ''); ?></pre>
-                                <strong>New:</strong>
-                                <pre style="white-space:pre-wrap;margin:0;"><?php echo fmt_audit($row['new_value'] ?? ''); ?></pre>
-                            </td>
                             <td><?php echo htmlspecialchars($row['ip'] ?? ''); ?></td>
                         </tr>
                     <?php endforeach; ?>
