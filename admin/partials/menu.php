@@ -32,6 +32,7 @@ include('login-check.php');
                         <li><a href="manage-customer.php">Customers</a></li>
                         <li><a href="manage-category.php">Categories</a></li>
                         <li><a href="manage-food.php">Foods</a></li>
+                        <li><a href="manage-audit.php">Audit Trail</a></li>
                     <?php } ?>
 
                     <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'kitchen') { ?>
